@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AcademicPortal - Inscription Élève</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#002114",
+                        "primary-fixed": "#dae2fd",
+                        "primary-container": "#131b2e",
+                        "outline-variant": "#c6c6cd",
+                        "secondary-fixed-dim": "#68dba9",
+                        "tertiary": "#000000",
+                        "on-primary-container": "#7c839b",
+                        "secondary": "#006c4a",
+                        "on-secondary": "#ffffff",
+                        "primary": "#000000",
+                        "surface": "#f8f9ff",
+                        "on-surface": "#0b1c30",
+                        "on-surface-variant": "#45464d",
+                        "outline": "#76777d",
+                        "background": "#f8f9ff",
+                        "error": "#ba1a1a",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container": "#e5eeff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "xl": "40px",
+                        "2xl": "64px",
+                        "margin-desktop": "48px",
+                        "base": "4px",
+                        "gutter": "24px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .step-pill-active { background-color: #059669; }
+        .step-pill-inactive { background-color: #e2e8f0; }
+        .institutional-border { border: 1px solid #e2e8f0; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md antialiased">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-container-lowest text-primary dark:text-inverse-primary docked full-width top-0 sticky z-50 border-b border-outline-variant dark:border-outline flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-md">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary" data-icon="account_balance">account_balance</span>
+<span class="font-headline-md text-headline-md font-bold text-on-surface dark:text-inverse-on-surface">AcademicPortal</span>
+</div>
+<button class="font-label-md text-label-md px-md py-sm rounded-lg hover:bg-surface-container-low transition-colors border border-outline-variant">
+            Admin Access
+        </button>
+</header>
+<main class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop py-xl">
+<!-- Wizard Container -->
+<div class="max-w-2xl mx-auto">
+<!-- Stepper Progress Bar -->
+<div class="flex items-center justify-between gap-gutter mb-xl">
+<div class="flex-1 flex flex-col gap-sm">
+<div class="h-2 w-full rounded-full step-pill-active"></div>
+<span class="font-label-sm text-label-sm text-secondary">Étape 1: Infos Élève</span>
+</div>
+<div class="flex-1 flex flex-col gap-sm">
+<div class="h-2 w-full rounded-full step-pill-inactive"></div>
+<span class="font-label-sm text-label-sm text-outline">Étape 2: Parents</span>
+</div>
+<div class="flex-1 flex flex-col gap-sm">
+<div class="h-2 w-full rounded-full step-pill-inactive"></div>
+<span class="font-label-sm text-label-sm text-outline">Étape 3: Paiement</span>
+</div>
+</div>
+<!-- Header Section -->
+<div class="mb-lg">
+<h1 class="font-headline-xl text-headline-xl text-primary mb-xs">Informations de l'élève</h1>
+<p class="text-on-surface-variant font-body-sm">Veuillez renseigner les informations d'identification de l'élève pour initier la procédure d'inscription.</p>
+</div>
+<!-- Form Card -->
+<div class="bg-white institutional-border rounded-xl p-lg md:p-xl mb-xl">
+<form class="space-y-lg" id="registrationForm">
+<!-- Name Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="space-y-xs">
+<label class="block font-label-md text-label-md text-on-surface" for="firstname">Prénom de l'élève</label>
+<input class="w-full border-slate-200 border rounded-lg px-md py-sm focus:ring-2 focus:ring-slate-100 focus:border-slate-900 transition-all outline-none" id="firstname" name="firstname" placeholder="Ex: Fatou" type="text"/>
+</div>
+<div class="space-y-xs">
+<label class="block font-label-md text-label-md text-on-surface" for="lastname">Nom de l'élève</label>
+<input class="w-full border-slate-200 border rounded-lg px-md py-sm focus:ring-2 focus:ring-slate-100 focus:border-slate-900 transition-all outline-none" id="lastname" name="lastname" placeholder="Ex: DIOP" type="text"/>
+</div>
+</div>
+<!-- Phone Input -->
+<div class="space-y-xs">
+<label class="block font-label-md text-label-md text-on-surface" for="phone">Téléphone du Tuteur</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none text-on-surface-variant">
+<span class="text-body-sm">+221</span>
+</div>
+<input class="w-full border-slate-200 border rounded-lg pl-[60px] pr-md py-sm focus:ring-2 focus:ring-slate-100 focus:border-slate-900 transition-all outline-none" id="phone" name="phone" placeholder="77 000 00 00" type="tel"/>
+</div>
+</div>
+<!-- Select Dropdown -->
+<div class="space-y-xs">
+<label class="block font-label-md text-label-md text-on-surface" for="level">Niveau demandé</label>
+<div class="relative">
+<select class="w-full appearance-none border-slate-200 border rounded-lg px-md py-sm focus:ring-2 focus:ring-slate-100 focus:border-slate-900 transition-all outline-none bg-white" id="level" name="level">
+<option disabled="" selected="" value="">Sélectionnez le niveau</option>
+<option value="ci">CI (Cours d'Initiation)</option>
+<option value="cp">CP (Cours Préparatoire)</option>
+<option value="ce1">CE1 (Cours Élémentaire 1)</option>
+<option value="ce2">CE2 (Cours Élémentaire 2)</option>
+<option value="cm1">CM1 (Cours Moyen 1)</option>
+<option value="cm2">CM2 (Cours Moyen 2)</option>
+</select>
+<div class="absolute inset-y-0 right-0 pr-md flex items-center pointer-events-none">
+<i class="w-5 h-5 text-on-surface-variant" data-lucide="chevron-down"></i>
+</div>
+</div>
+</div>
+<!-- Institutional Accent (Subtle Flag Stripe) -->
+<div class="flex h-1 w-full rounded-full overflow-hidden mt-xl opacity-20">
+<div class="w-1/3 bg-[#059669]"></div>
+<div class="w-1/3 bg-[#facc15]"></div>
+<div class="w-1/3 bg-[#dc2626]"></div>
+</div>
+</form>
+</div>
+<!-- Bottom Action -->
+<div class="flex justify-end gap-md">
+<button class="px-xl py-sm rounded-lg bg-slate-100 text-slate-400 font-label-md text-label-md cursor-not-allowed transition-all" disabled="" id="submitBtn">
+                    Continuer
+                </button>
+</div>
+</div>
+</main>
+<!-- Contextual Info Cards (Bento Style) -->
+<aside class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-3 gap-lg pb-2xl">
+<div class="institutional-border bg-white p-lg rounded-xl">
+<div class="flex items-center gap-sm mb-sm text-secondary">
+<i class="w-5 h-5" data-lucide="shield-check"></i>
+<h3 class="font-label-md text-label-md">Sécurité des données</h3>
+</div>
+<p class="text-on-surface-variant font-body-sm">Vos informations sont cryptées et traitées conformément à la réglementation sénégalaise CDP.</p>
+</div>
+<div class="institutional-border bg-white p-lg rounded-xl">
+<div class="flex items-center gap-sm mb-sm text-secondary">
+<i class="w-5 h-5" data-lucide="help-circle"></i>
+<h3 class="font-label-md text-label-md">Besoin d'aide ?</h3>
+</div>
+<p class="text-on-surface-variant font-body-sm">Contactez notre support administratif au +221 33 800 00 00 pour toute assistance immédiate.</p>
+</div>
+<div class="institutional-border bg-white p-lg rounded-xl">
+<div class="flex items-center gap-sm mb-sm text-secondary">
+<i class="w-5 h-5" data-lucide="clock"></i>
+<h3 class="font-label-md text-label-md">Temps estimé</h3>
+</div>
+<p class="text-on-surface-variant font-body-sm">Le processus complet d'inscription prend environ 5 minutes de votre temps.</p>
+</div>
+</aside>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center py-sm bg-surface dark:bg-surface-container-lowest border-t border-outline-variant z-50">
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim font-bold scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="how_to_reg" style="font-variation-settings: 'FILL' 1;">how_to_reg</span>
+<span class="font-label-sm text-label-sm">Registration</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:text-secondary-container" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-sm text-label-sm">Payments</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:text-secondary-container" href="#">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+<span class="font-label-sm text-label-sm">Status</span>
+</a>
+</nav>
+<script>
+        lucide.createIcons();
+
+        // Simple form validation logic to enable button
+        const form = document.getElementById('registrationForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const inputs = form.querySelectorAll('input, select');
+
+        const checkForm = () => {
+            let isValid = true;
+            inputs.forEach(input => {
+                if (!input.value) isValid = false;
+            });
+            
+            if (isValid) {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('bg-slate-100', 'text-slate-400', 'cursor-not-allowed');
+                submitBtn.classList.add('bg-slate-900', 'text-white', 'hover:bg-slate-800', 'cursor-pointer');
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('bg-slate-100', 'text-slate-400', 'cursor-not-allowed');
+                submitBtn.classList.remove('bg-slate-900', 'text-white', 'hover:bg-slate-800', 'cursor-pointer');
+            }
+        };
+
+        inputs.forEach(input => {
+            input.addEventListener('input', checkForm);
+            input.addEventListener('change', checkForm);
+        });
+
+        // Phone mask logic (visual only)
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 9) value = value.slice(0, 9);
+            
+            let formatted = '';
+            for (let i = 0; i < value.length; i++) {
+                if (i === 2 || i === 5 || i === 7) formatted += ' ';
+                formatted += value[i];
+            }
+            e.target.value = formatted;
+        });
+    </script>
+</body></html>

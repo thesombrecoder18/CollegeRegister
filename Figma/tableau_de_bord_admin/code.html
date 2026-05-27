@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard Admin - Vue Générale</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#c4c5d7",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "on-primary-container": "#cad3ff",
+                    "tertiary": "#7f2500",
+                    "on-secondary-fixed": "#0b1c30",
+                    "primary-fixed": "#dce1ff",
+                    "primary-container": "#1d4ed8",
+                    "outline": "#747686",
+                    "surface-dim": "#d9d9e5",
+                    "on-tertiary-container": "#ffc9b7",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed": "#001551",
+                    "on-error": "#ffffff",
+                    "surface-container": "#ededf9",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-bright": "#faf8ff",
+                    "primary": "#0037b0",
+                    "surface-variant": "#e2e1ed",
+                    "surface-container-highest": "#e2e1ed",
+                    "on-background": "#1a1b23",
+                    "on-tertiary-fixed": "#390c00",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#832700",
+                    "primary-fixed-dim": "#b7c4ff",
+                    "background": "#faf8ff",
+                    "surface-tint": "#2151da",
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#f0f0fb",
+                    "inverse-primary": "#b7c4ff",
+                    "on-secondary-container": "#54647a",
+                    "on-surface": "#1a1b23",
+                    "tertiary-container": "#a73400",
+                    "inverse-surface": "#2e3039",
+                    "secondary-fixed": "#d3e4fe",
+                    "tertiary-fixed": "#ffdbcf",
+                    "surface-container-low": "#f3f2fe",
+                    "surface": "#faf8ff",
+                    "tertiary-fixed-dim": "#ffb59c",
+                    "secondary-container": "#d0e1fb",
+                    "on-surface-variant": "#434655",
+                    "on-primary-fixed-variant": "#0039b5",
+                    "error-container": "#ffdad6",
+                    "secondary": "#505f76",
+                    "surface-container-high": "#e8e7f3",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#38485d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "base": "4px",
+                    "sm": "8px",
+                    "xl": "32px",
+                    "container-max": "1280px",
+                    "2xl": "48px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen font-body-md">
+<!-- SideNavBar (Shared Component) -->
+<nav class="fixed left-0 top-0 h-full w-[260px] bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant dark:border-outline flex flex-col py-md space-y-2 z-50">
+<!-- Header -->
+<div class="px-lg pb-md mb-md border-b border-outline-variant">
+<div class="flex items-center gap-sm mb-sm">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined text-[18px]">account_balance</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Admin Central</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Management Console</p>
+</div>
+</div>
+</div>
+<!-- Main Navigation -->
+<div class="flex-1 flex flex-col space-y-1 px-sm">
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container rounded-lg mx-2 transition-transform scale-95 active:scale-90 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg mx-2 hover:bg-surface-variant transition-all duration-200 transition-transform scale-95 active:scale-90 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span>Payments</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg mx-2 hover:bg-surface-variant transition-all duration-200 transition-transform scale-95 active:scale-90 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">school</span>
+<span>Classes</span>
+</a>
+</div>
+<!-- Footer Navigation -->
+<div class="pt-md border-t border-outline-variant px-sm space-y-1">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg mx-2 hover:bg-surface-variant transition-all duration-200 transition-transform scale-95 active:scale-90 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg mx-2 hover:bg-surface-variant transition-all duration-200 transition-transform scale-95 active:scale-90 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">help</span>
+<span>Support</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="ml-[260px] flex flex-col min-h-screen">
+<!-- TopAppBar (Shared Component - Breadcrumbs) -->
+<header class="sticky top-0 z-40 bg-surface dark:bg-surface-dim border-b border-outline-variant shadow-sm flex justify-between items-center px-lg h-16 w-full">
+<div class="flex items-center gap-md">
+<button class="p-sm rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant cursor-pointer">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="flex items-center gap-xs font-body-sm text-body-sm text-on-surface-variant">
+<span class="hover:text-primary transition-colors cursor-pointer">Admin</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-primary font-bold">Dashboard</span>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant cursor-pointer hover:opacity-80 transition-opacity">
+<img alt="Administrator Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged male administrator with a gentle smile, wearing a neat navy blue blazer over a crisp white shirt. The background is a softly blurred modern office interior with ample natural light. The lighting is balanced and flattering, conveying approachability and competence. The overall mood is confident, corporate, and trustworthy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFM44_t4ju8dVSvH5atxpcMh3hPASQbosT1wJaL84Rlq92vqP6ygw-29_HV8jAx8uADTxSYi3cxPlCcGvUZ3Z1amyy0mffm1BMQbf7ibH9NrFYlhWNeyNCSSdtu03FduosoiJF8NbEHZ3c5QEivaQfUUTnrp9dj52bUeDMiXvsQX0j998SxVPIYFVPXxgFsNUhZTNnbQ5tU569Z29cwmB70f_5_SsDn4AWdnlsRmYIqs-0YwRu8BcsAMh_kU1Ev4hTkBlORkZmqEw"/>
+</div>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<main class="flex-1 p-lg max-w-container-max mx-auto w-full">
+<!-- Page Header -->
+<div class="mb-lg">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Vue Générale</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Aperçu en temps réel de l'activité administrative.</p>
+</div>
+<!-- KPI Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg mb-xl">
+<!-- KPI Card 1: Inscriptions Validées -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg flex flex-col justify-between h-full">
+<div class="flex justify-between items-start mb-md">
+<div class="font-label-md text-label-md text-on-surface-variant">Inscriptions Validées</div>
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">verified</span>
+</div>
+</div>
+<div>
+<div class="font-headline-xl text-headline-xl text-on-surface mb-xs">245</div>
+<div class="flex items-center gap-xs font-label-sm text-label-sm text-primary">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span>+12 aujourd'hui</span>
+</div>
+</div>
+</div>
+<!-- KPI Card 2: En Attente -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg flex flex-col justify-between h-full">
+<div class="flex justify-between items-start mb-md">
+<div class="font-label-md text-label-md text-on-surface-variant">En Attente de Validation</div>
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">schedule</span>
+</div>
+</div>
+<div>
+<div class="font-headline-xl text-headline-xl text-on-surface mb-xs">34</div>
+<div class="flex items-center gap-xs font-label-sm text-label-sm text-tertiary">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+<span>Action requise</span>
+</div>
+</div>
+</div>
+<!-- KPI Card 3: Rejetés -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg flex flex-col justify-between h-full">
+<div class="flex justify-between items-start mb-md">
+<div class="font-label-md text-label-md text-on-surface-variant">Dossiers Rejetés</div>
+<div class="w-10 h-10 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined">cancel</span>
+</div>
+</div>
+<div>
+<div class="font-headline-xl text-headline-xl text-on-surface mb-xs">8</div>
+<div class="flex items-center gap-xs font-label-sm text-label-sm text-error">
+<span class="material-symbols-outlined text-[16px]">error</span>
+<span>Erreurs de référence</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

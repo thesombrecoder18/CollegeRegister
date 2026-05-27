@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EduAdmin Pro - Multi-Tenant White-Label Demo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "secondary-fixed": "#85f8c4",
+                "inverse-surface": "#2d3133",
+                "on-tertiary-fixed": "#0b1c30",
+                "primary-container": "#1e293b",
+                "on-tertiary": "#ffffff",
+                "secondary": "#006c4a",
+                "on-surface": "#1e293b", /* Adjusted to Slate 800-ish for Institutional Heritage */
+                "surface-container-high": "#e2e8f0",
+                "surface-container": "#f1f5f9",
+                "surface": "#f8fafc",
+                "on-secondary-container": "#00714e",
+                "tertiary-fixed": "#d3e4fe",
+                "on-secondary-fixed-variant": "#005137",
+                "primary": "#1e293b", /* Slate 800 */
+                "inverse-primary": "#bcc7de",
+                "tertiary-container": "#1a2a3e",
+                "primary-fixed": "#dbeafe", /* Light Blue 100 */
+                "surface-tint": "#1d4ed8", /* Blue 700 */
+                "on-tertiary-container": "#8191a9",
+                "primary-fixed-dim": "#93c5fd",
+                "on-secondary": "#ffffff",
+                "inverse-on-surface": "#eff1f3",
+                "outline": "#94a3b8",
+                "surface-bright": "#f8fafc",
+                "on-error": "#ffffff",
+                "on-tertiary-fixed-variant": "#38485d",
+                "outline-variant": "#cbd5e1",
+                "on-background": "#1e293b",
+                "on-primary-fixed": "#1e3a8a",
+                "tertiary-fixed-dim": "#b7c8e1",
+                "surface-container-lowest": "#ffffff",
+                "on-primary": "#ffffff",
+                "surface-container-low": "#f8fafc",
+                "tertiary": "#041528",
+                "on-secondary-fixed": "#002114",
+                "surface-container-highest": "#cbd5e1",
+                "on-surface-variant": "#64748b",
+                "secondary-container": "#82f5c1",
+                "error": "#ba1a1a",
+                "on-primary-container": "#94a3b8",
+                "surface-dim": "#cbd5e1",
+                "on-primary-fixed-variant": "#1d4ed8",
+                "secondary-fixed-dim": "#68dba9",
+                "on-error-container": "#93000a",
+                "background": "#f8fafc",
+                "error-container": "#ffdad6",
+                "surface-variant": "#e2e8f0"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.4rem", /* Institutional Heritage: ROUND_FOUR */
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "lg": "24px",
+                "sm": "8px",
+                "xl": "32px",
+                "margin-desktop": "32px",
+                "base": "4px",
+                "md": "16px",
+                "margin-mobile": "16px",
+                "gutter": "20px",
+                "xs": "4px"
+            },
+            "fontFamily": {
+                "label-md": ["Inter"],
+                "body-sm": ["Inter"],
+                "body-md": ["Inter"],
+                "label-sm": ["Inter"],
+                "headline-md": ["Inter"],
+                "display": ["Inter"],
+                "data-mono": ["Inter"],
+                "body-lg": ["Inter"],
+                "headline-lg": ["Inter"],
+                "headline-sm": ["Inter"]
+            },
+            "fontSize": {
+                "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "display": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "data-mono": ["13px", {"lineHeight": "18px", "letterSpacing": "-0.01em", "fontWeight": "400"}],
+                "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .comparison-container {
+            height: calc(100vh - 64px);
+        }
+        /* Tenant Specific Overrides remain untouched */
+        .tenant-a { --tenant-primary: #1D4ED8; }
+        .tenant-b { --tenant-primary: #B91C1C; }
+        
+        .tenant-primary-bg { background-color: var(--tenant-primary); }
+        .tenant-primary-text { color: var(--tenant-primary); }
+        .tenant-primary-border { border-color: var(--tenant-primary); }
+        .tenant-primary-ring { --tw-ring-color: var(--tenant-primary); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-hidden">
+<!-- Top Navigation (Harmonized with Blue 700 / Slate 800) -->
+<header class="flex justify-between items-center h-16 px-margin-desktop bg-surface-container-lowest border-b border-outline-variant z-50 relative">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-blue-700 font-bold">domain_verification</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">EduAdmin Pro</h1>
+<span class="px-sm py-xs bg-slate-100 rounded text-label-sm font-label-sm text-slate-500 border border-slate-200 uppercase tracking-tighter">THEME ENGINE v2.4</span>
+</div>
+<div class="flex items-center gap-lg">
+<div class="hidden md:flex items-center bg-slate-50 px-md py-sm rounded border border-slate-200">
+<span class="material-symbols-outlined text-slate-400 text-body-md mr-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-64 p-0 placeholder-slate-400" placeholder="Rechercher un établissement..." type="text"/>
+</div>
+<div class="flex items-center gap-md">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-slate-50 transition-all text-slate-600">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-lg bg-blue-50 overflow-hidden border border-blue-200">
+<img alt="Superadmin Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOQffUr79AFLpDiHfcdeRONtgtfAOTYvQNqjnQTVNP1eT6nnFGto7e6ejA_ezElOijUJk_a2HJXBw0LF3a7pHEiXCWuYzKOrLuvabhGjPOFF1W9_iNsdmlr9oy6c_jOv2f_pLxu_cSLpJbacwIsedP3eeYSX-h0wvXvQwgLMKi4aG8M6g9CTAy9l1BY-CC4pA00c6ny1KNHp_XBZHUQMhSkr3mVIYUP2rMgWBgfnUQ70KTOamPjd08Mew7e8jxkhGDVeuEtvubwkc"/>
+</div>
+</div>
+</div>
+</header>
+<main class="flex w-full h-[calc(100vh-64px)] overflow-hidden">
+<!-- SIDEBAR (Fixed Slate 800 Heritage Theme) -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-[280px] bg-slate-900 flex flex-col p-md z-40 border-r border-slate-800">
+<div class="mb-lg px-sm">
+<p class="text-slate-500 font-label-sm uppercase tracking-wider mb-md opacity-80">Menu Principal</p>
+<nav class="space-y-sm">
+<a class="flex items-center gap-md p-md text-white bg-blue-700 rounded font-semibold transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined">domain</span>
+<span class="font-label-md text-label-md">Établissements</span>
+</a>
+<a class="flex items-center gap-md p-md text-slate-400 hover:bg-slate-800 hover:text-white rounded transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Télémétrie</span>
+</a>
+<a class="flex items-center gap-md p-md text-slate-400 hover:bg-slate-800 hover:text-white rounded transition-colors" href="#">
+<span class="material-symbols-outlined">security</span>
+<span class="font-label-md text-label-md">Sécurité</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto border-t border-slate-800 pt-md px-sm">
+<nav class="space-y-sm">
+<a class="flex items-center gap-md p-md text-slate-400 hover:bg-slate-800 hover:text-white rounded transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Paramètres</span>
+</a>
+<a class="flex items-center gap-md p-md text-slate-400 hover:bg-slate-800 hover:text-white rounded transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Aide</span>
+</a>
+</nav>
+</div>
+</aside>
+<!-- CONTENT AREA WITH SPLIT VIEW -->
+<div class="ml-[280px] w-[calc(100%-280px)] h-full flex flex-col">
+<!-- Comparison Header (Harmonized) -->
+<div class="px-xl py-lg bg-white border-b border-slate-200 flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-slate-900">Comparaison de Thème Dynamique</h2>
+<p class="text-slate-500 font-body-md mt-base">Visualisation du moteur de personnalisation multi-tenant en temps réel.</p>
+</div>
+<div class="flex gap-md">
+<button class="px-lg py-sm bg-white rounded font-label-md text-label-md text-slate-700 border border-slate-200 hover:bg-slate-50 transition-colors">Exporter les Configs</button>
+<button class="px-lg py-sm bg-blue-700 text-white rounded font-label-md text-label-md shadow-md shadow-blue-900/10 hover:bg-blue-800 transition-all">Publier les thèmes</button>
+</div>
+</div>
+<!-- THE SPLIT VIEW CANVAS (Inner contents preserved per request) -->
+<div class="flex-1 flex overflow-hidden">
+<!-- TENANT A (BLUE) -->
+<section class="flex-1 border-r border-slate-200 relative tenant-a flex flex-col overflow-y-auto">
+<!-- Config Overlay -->
+<div class="absolute top-md left-md z-20 bg-white/90 backdrop-blur-sm p-sm rounded border border-slate-200 shadow-sm text-[10px] font-mono">
+<span class="text-blue-700 font-bold">Tenant_ID:</span> CEM_MERMOZ_01<br/>
+<span class="text-blue-700 font-bold">Primary_Hex:</span> #1D4ED8
+                    </div>
+<!-- Landing Page Preview Shell -->
+<div class="w-full h-full bg-white p-lg space-y-lg scale-[0.95] origin-top transition-transform hover:scale-100 duration-500">
+<nav class="flex justify-between items-center pb-md border-b border-slate-100">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded tenant-primary-bg flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-sm">school</span>
+</div>
+<span class="font-headline-sm text-headline-sm tenant-primary-text">CEM Mermoz</span>
+</div>
+<div class="flex gap-md text-slate-500 text-sm font-medium">
+<span class="tenant-primary-text">Accueil</span>
+<span>Programmes</span>
+<span>Contact</span>
+</div>
+</nav>
+<div class="rounded-xl overflow-hidden relative h-48 bg-slate-900">
+<img class="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-iB5X2ypIpS8XiGwWtPy-z-8Mp6OPAUGkdZWNoSkpDC1lRMnKa6009mLdQuN0fKcm4jiCwMWpRgXMAH38jrQQypZeqQOG5PwF5WuYU7vN3iCBUTRSWWNrrhv4t7TGhZ9U3T-T0gOEi6e6ESw88wP57iXjanD7hfXU1yayPhe774iDRZKqtmUmbUcIKmDuAD8kmKU1R7ygmZpPkG8vlFHNT3GytftPLO6evJxGE6Pg_YKbKEIbVVQI63xba2YMEoLapsJhvm561F8"/>
+<div class="absolute inset-0 flex flex-col justify-center px-lg bg-gradient-to-r from-blue-900/40 to-transparent">
+<h3 class="text-white font-headline-lg text-headline-lg leading-tight">L'Excellence<br/>Académique</h3>
+<div class="w-12 h-1 tenant-primary-bg mt-sm"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div class="p-md rounded-lg border border-slate-200 bg-slate-50">
+<span class="material-symbols-outlined tenant-primary-text mb-xs">verified</span>
+<h4 class="font-bold text-sm text-slate-900">Certifié d'État</h4>
+<p class="text-xs text-slate-500 mt-xs leading-relaxed">Un cursus reconnu garantissant les meilleurs débouchés professionnels.</p>
+</div>
+<div class="p-md rounded-lg border border-slate-200 bg-slate-50">
+<span class="material-symbols-outlined tenant-primary-text mb-xs">groups</span>
+<h4 class="font-bold text-sm text-slate-900">Vie Étudiante</h4>
+<p class="text-xs text-slate-500 mt-xs leading-relaxed">Une communauté dynamique engagée dans le sport et la culture.</p>
+</div>
+</div>
+<div class="flex flex-col gap-sm">
+<button class="w-full py-md tenant-primary-bg text-white rounded-lg font-bold text-sm shadow-lg shadow-blue-700/20">S'inscrire pour la Rentrée</button>
+<button class="w-full py-md border-2 tenant-primary-border tenant-primary-text rounded-lg font-bold text-sm">Télécharger la Brochure</button>
+</div>
+</div>
+</section>
+<!-- TENANT B (RED) -->
+<section class="flex-1 relative tenant-b flex flex-col overflow-y-auto">
+<!-- Config Overlay -->
+<div class="absolute top-md left-md z-20 bg-white/90 backdrop-blur-sm p-sm rounded border border-slate-200 shadow-sm text-[10px] font-mono">
+<span class="text-red-700 font-bold">Tenant_ID:</span> LYCEE_TECH_02<br/>
+<span class="text-red-700 font-bold">Primary_Hex:</span> #B91C1C
+                    </div>
+<div class="w-full h-full bg-white p-lg space-y-lg scale-[0.95] origin-top transition-transform hover:scale-100 duration-500">
+<nav class="flex justify-between items-center pb-md border-b border-slate-100">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded tenant-primary-bg flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-sm">engineering</span>
+</div>
+<span class="font-headline-sm text-headline-sm tenant-primary-text">Lycée Technique</span>
+</div>
+<div class="flex gap-md text-slate-500 text-sm font-medium">
+<span class="tenant-primary-text">Accueil</span>
+<span>Ateliers</span>
+<span>Admission</span>
+</div>
+</nav>
+<div class="rounded-xl overflow-hidden relative h-48 bg-slate-900">
+<img class="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBH8kncBNuwRJDguxlhdkS0Ql5Uvj9i_9D5lAVJFl708-UZx7mIeEhg1v7JsBiDAqdBYM24BeirHkT6Z5FkCtY7GCwPrkK4nbkdSLLsdF9s5TpMdthH98ZuTil02NH3KRhsvfxzkLzma9mRNX-S2pmx4xxArxkUTn2iqSujkN4vCeaam8NmXp-AzXsYoorXAh8Y63LVHoEg3_icSWSUoAEYdX-h3N819F_9wLSkslIS2TftxdD34yor9ATTp5il8PZUelQ6zfwGMPA"/>
+<div class="absolute inset-0 flex flex-col justify-center px-lg bg-gradient-to-r from-red-900/40 to-transparent">
+<h3 class="text-white font-headline-lg text-headline-lg leading-tight">Bâtir Votre<br/>Avenir Technique</h3>
+<div class="w-12 h-1 tenant-primary-bg mt-sm"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div class="p-md rounded-lg border border-slate-200 bg-slate-50">
+<span class="material-symbols-outlined tenant-primary-text mb-xs">bolt</span>
+<h4 class="font-bold text-sm text-slate-900">Pôle Innovation</h4>
+<p class="text-xs text-slate-500 mt-xs leading-relaxed">Laboratoires de pointe en robotique et énergies renouvelables.</p>
+</div>
+<div class="p-md rounded-lg border border-slate-200 bg-slate-50">
+<span class="material-symbols-outlined tenant-primary-text mb-xs">handyman</span>
+<h4 class="font-bold text-sm text-slate-900">Alternance</h4>
+<p class="text-xs text-slate-500 mt-xs leading-relaxed">Réseau de 500+ entreprises partenaires pour votre insertion.</p>
+</div>
+</div>
+<div class="flex flex-col gap-sm">
+<button class="w-full py-md tenant-primary-bg text-white rounded-lg font-bold text-sm shadow-lg shadow-red-700/20">Portes Ouvertes 2024</button>
+<button class="w-full py-md border-2 tenant-primary-border tenant-primary-text rounded-lg font-bold text-sm">Découvrir les Filières</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Comparison Metadata Footer -->
+<footer class="h-24 bg-slate-50 border-t border-slate-200 px-xl flex items-center justify-between">
+<div class="flex gap-xl">
+<div class="flex flex-col">
+<span class="text-label-sm font-label-sm text-slate-500 uppercase">Temps de propagation</span>
+<span class="text-headline-sm font-bold text-slate-900">0.42s (CDN Global)</span>
+</div>
+<div class="flex flex-col border-l border-slate-200 pl-xl">
+<span class="text-label-sm font-label-sm text-slate-500 uppercase">Moteur de rendu</span>
+<span class="text-headline-sm font-bold text-slate-900">Tailwind JIT Engine</span>
+</div>
+<div class="flex flex-col border-l border-slate-200 pl-xl">
+<span class="text-label-sm font-label-sm text-slate-500 uppercase">État du cache thématique</span>
+<span class="flex items-center gap-xs text-headline-sm font-bold text-blue-700">
+<span class="w-2 h-2 rounded-full bg-blue-700"></span>
+                            Synchronisé
+                        </span>
+</div>
+</div>
+<div class="flex items-center gap-sm text-slate-500 italic font-body-sm">
+<span class="material-symbols-outlined text-md">info</span>
+                    Toutes les modifications de CSS Variables sont appliquées via le SDK edu-theme-core.
+                </div>
+</footer>
+</div>
+</main>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.addEventListener('mouseenter', () => {
+                    section.classList.add('flex-[1.2]');
+                    section.classList.remove('flex-1');
+                    sections.forEach(s => {
+                        if(s !== section) {
+                            s.classList.add('flex-[0.8]');
+                            s.classList.remove('flex-1');
+                        }
+                    });
+                });
+                section.addEventListener('mouseleave', () => {
+                    sections.forEach(s => {
+                        s.classList.remove('flex-[1.2]', 'flex-[0.8]');
+                        s.classList.add('flex-1');
+                    });
+                });
+            });
+        });
+    </script>
+</body></html>

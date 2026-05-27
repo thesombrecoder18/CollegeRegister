@@ -1,0 +1,109 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ---------------- ENTITÉS SAAS ----------------
+
+model Ecole {
+  id                String          @id @default(uuid())
+  nom               String          @unique
+  slug              String          @unique
+  couleurPrimaire   String          @default("#1e293b")
+  couleurSecondaire String          @default("#059669")
+  logoUrl           String?
+  statut            StatutEcole     @default(ACTIVE)
+  dateCreation      DateTime        @default(now())
+
+  utilisateurs      Utilisateur[]
+  inscriptions      Inscription[]
+  configuration     Configuration?
+  auditLogs         AuditLog[]
+}
+
+enum StatutEcole {
+  ACTIVE
+  SUSPENDUE
+}
+
+model Utilisateur {
+  id         String     @id @default(uuid())
+  email      String     @unique
+  motDePasse String
+  role       RoleUser   @default(GERANT)
+  ecoleId    String?
+  ecole      Ecole?     @relation(fields: [ecoleId], references: [id])
+  auditLogs  AuditLog[]
+}
+
+enum RoleUser {
+  GERANT
+  SUPERADMIN
+}
+
+// ---------------- ENTITÉS MÉTIER DE L'ÉCOLE ----------------
+
+model Configuration {
+  id               String   @id @default(uuid())
+  ecoleId          String   @unique
+  ecole            Ecole    @relation(fields: [ecoleId], references: [id])
+  montantSixieme   Int      @default(25000)
+  montantCinquieme Int      @default(25000)
+  montantQuatrieme Int      @default(25000)
+  montantTroisieme Int      @default(30000)
+}
+
+model Inscription {
+  id             String            @id @default(uuid())
+  ecoleId        String
+  ecole          Ecole             @relation(fields: [ecoleId], references: [id])
+
+  nom            String
+  prenom         String
+  niveau         String
+  classe         String            @default("")
+  telephone      String
+  operateur      OperateurPaiement
+  reference      String            @unique
+  montantAttendu Int
+  montantRecu    Int               @default(0)
+  preuveImage    String?
+  statut         StatutInscription @default(EN_ATTENTE)
+
+  adminNotes     String?
+  valideParId    String?
+
+  dateInscrit    DateTime          @default(now())
+  dateValide     DateTime?
+}
+
+enum StatutInscription {
+  EN_ATTENTE
+  VALIDE
+  REJETE
+}
+
+enum OperateurPaiement {
+  WAVE
+  ORANGEMONEY
+}
+
+// ---------------- AUDIT ET SÉCURITÉ ----------------
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String
+  acteur    Utilisateur @relation(fields: [userId], references: [id])
+  
+  ecoleId   String?
+  ecole     Ecole?      @relation(fields: [ecoleId], references: [id])
+
+  action    String
+  entityId  String?
+  details   String?
+  date      DateTime @default(now())
+}

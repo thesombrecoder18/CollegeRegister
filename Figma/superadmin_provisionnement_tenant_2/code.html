@@ -1,0 +1,368 @@
+<html lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#85f8c4",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary-fixed": "#0b1c30",
+                        "primary-container": "#1e293b",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#006c4a",
+                        "on-surface": "#191c1e",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-container": "#eceef0",
+                        "surface": "#f7f9fb",
+                        "on-secondary-container": "#00714e",
+                        "tertiary-fixed": "#d3e4fe",
+                        "on-secondary-fixed-variant": "#005137",
+                        "primary": "#091426",
+                        "inverse-primary": "#bcc7de",
+                        "tertiary-container": "#1a2a3e",
+                        "primary-fixed": "#d8e3fb",
+                        "surface-tint": "#545f73",
+                        "on-tertiary-container": "#8191a9",
+                        "primary-fixed-dim": "#bcc7de",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eff1f3",
+                        "outline": "#75777d",
+                        "surface-bright": "#f7f9fb",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#38485d",
+                        "outline-variant": "#c5c6cd",
+                        "on-background": "#191c1e",
+                        "on-primary-fixed": "#111c2d",
+                        "tertiary-fixed-dim": "#b7c8e1",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "tertiary": "#041528",
+                        "on-secondary-fixed": "#002114",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-surface-variant": "#45474c",
+                        "secondary-container": "#82f5c1",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#8590a6",
+                        "surface-dim": "#d8dadc",
+                        "on-primary-fixed-variant": "#3c475a",
+                        "secondary-fixed-dim": "#68dba9",
+                        "on-error-container": "#93000a",
+                        "background": "#f7f9fb",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e0e3e5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "margin-desktop": "32px",
+                        "base": "4px",
+                        "md": "16px",
+                        "margin-mobile": "16px",
+                        "gutter": "20px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "data-mono": ["13px", {"lineHeight": "18px", "letterSpacing": "-0.01em", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .modal-overlay {
+            backdrop-filter: blur(8px);
+            background-color: rgba(9, 20, 38, 0.4);
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e0e3e5; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- Sidebar (As per JSON) -->
+<aside class="fixed left-0 top-0 h-screen w-[280px] bg-primary flex flex-col p-md">
+<div class="mb-xl px-sm">
+<h1 class="font-headline-sm text-headline-sm text-surface-container-lowest">EduAdmin Pro</h1>
+<p class="font-label-md text-label-md text-on-primary-container">Superadmin Console</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-md p-md text-secondary-fixed bg-primary-container rounded-lg font-bold transition-transform active:scale-95" href="#">
+<span class="material-symbols-outlined">domain</span>
+<span class="font-label-md text-label-md">Établissements</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-primary-container hover:bg-primary-container hover:text-secondary-fixed transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Télémétrie</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-primary-container hover:bg-primary-container hover:text-secondary-fixed transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined">security</span>
+<span class="font-label-md text-label-md">Sécurité</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-on-primary-fixed-variant pt-md space-y-2">
+<a class="flex items-center gap-md p-md text-on-primary-container hover:bg-primary-container hover:text-secondary-fixed transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Paramètres</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-primary-container hover:bg-primary-container hover:text-secondary-fixed transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Aide</span>
+</a>
+</div>
+</aside>
+<!-- Header (As per JSON) -->
+<header class="flex justify-between items-center h-16 px-margin-desktop ml-[280px] w-[calc(100%-280px)] bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-lg">
+<span class="font-headline-md text-headline-md font-bold text-primary">EduAdmin</span>
+<div class="relative w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 font-body-md text-body-md focus:ring-2 focus:ring-primary/20" placeholder="Rechercher..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all active:opacity-80">
+<span class="material-symbols-outlined">apps</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant ml-md">
+<img alt="Superadmin Avatar" class="h-full w-full object-cover" data-alt="A professional headshot of a modern corporate administrator in a bright, clean office environment. The lighting is soft and even, highlighting a calm and confident expression. The background consists of soft-focus architectural glass and minimalist interior design elements in a palette of whites and soft greys. The overall aesthetic is professional, reliable, and high-end." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPGFtBOrb0y6NQSRozHTkV3mcF5yydWfVgzvV5bmn_bju1wSzSUUVRxipeok9nuBSdCKVUhy5KSA6C7z-Dvd_yJ8FLH3YyzDbwl9U2k_BV_kkaBerHA5Lvcpy-NUzIfLyXXkNj8IZpsAq2IJKmB3gAH1h0cDDrkdsBfSlz0vtl5pCr_-SsrdisLsyLgLjKB6uNDtP2dPRvGT9I02P4S7fgglBHFmxaxCAa-2Rt8ytNoTpFu8SHS1clefIw5kvLfI-Ef1GEs4cSuDw"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas (Background for Modal) -->
+<main class="ml-[280px] p-margin-desktop bg-background min-h-[calc(100vh-64px)]">
+<div class="flex justify-between items-end mb-xl">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary">Gestion des Établissements</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Configurez et gérez vos tenants multi-institutions.</p>
+</div>
+<button class="bg-primary text-white px-lg py-md rounded-lg font-label-md flex items-center gap-sm shadow-sm hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                Nouvel Établissement
+            </button>
+</div>
+<!-- Dashboard Content Simulation -->
+<div class="grid grid-cols-12 gap-gutter">
+<div class="col-span-8 space-y-gutter">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-md">Établissements Actifs</h3>
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead>
+<tr class="border-b border-outline-variant">
+<th class="text-left py-md px-md font-label-sm text-on-surface-variant uppercase">Institution</th>
+<th class="text-left py-md px-md font-label-sm text-on-surface-variant uppercase">Admin</th>
+<th class="text-left py-md px-md font-label-sm text-on-surface-variant uppercase">Utilisateurs</th>
+<th class="text-left py-md px-md font-label-sm text-on-surface-variant uppercase">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-md px-md font-body-md">Université de Lyon</td>
+<td class="py-md px-md font-body-sm text-on-surface-variant">m.durand@univ-lyon.fr</td>
+<td class="py-md px-md font-body-sm">12,450</td>
+<td class="py-md px-md">
+<span class="bg-secondary/10 text-secondary px-sm py-1 rounded font-label-sm">Actif</span>
+</td>
+</tr>
+<tr class="bg-surface-container-low/30 hover:bg-surface-container-low transition-colors">
+<td class="py-md px-md font-body-md">HEC Paris</td>
+<td class="py-md px-md font-body-sm text-on-surface-variant">admin@hec.edu</td>
+<td class="py-md px-md font-body-sm">8,200</td>
+<td class="py-md px-md">
+<span class="bg-secondary/10 text-secondary px-sm py-1 rounded font-label-sm">Actif</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="col-span-4 space-y-gutter">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-md">Statistiques Globales</h3>
+<div class="space-y-md">
+<div class="flex justify-between items-center p-md bg-surface-container rounded-lg">
+<span class="font-body-sm">Total Tenants</span>
+<span class="font-headline-sm text-primary">24</span>
+</div>
+<div class="flex justify-between items-center p-md bg-surface-container rounded-lg">
+<span class="font-body-sm">Stockage Utilisé</span>
+<span class="font-headline-sm text-primary">1.2 TB</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Modal Overlay -->
+<div class="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-md">
+<!-- Modal Card -->
+<div class="bg-surface-container-lowest w-full max-w-[800px] max-h-[921px] rounded-xl shadow-2xl border border-outline-variant flex flex-col animate-in fade-in zoom-in duration-300">
+<!-- Modal Header -->
+<div class="px-xl py-lg border-b border-outline-variant flex justify-between items-center">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Nouvel Établissement</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Configuration de l'espace de travail et de l'identité visuelle.</p>
+</div>
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-all text-on-surface-variant">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Content -->
+<div class="flex-1 overflow-y-auto p-xl custom-scrollbar space-y-xl">
+<!-- Section 1: Identity -->
+<section>
+<div class="flex items-center gap-sm mb-md text-primary">
+<span class="material-symbols-outlined text-[20px]">fingerprint</span>
+<h3 class="font-headline-sm text-headline-sm">Identité</h3>
+</div>
+<div class="grid grid-cols-2 gap-lg">
+<div class="space-y-base">
+<label class="font-label-sm text-on-surface-variant uppercase">Nom de l'établissement</label>
+<input class="w-full border-outline-variant rounded-lg font-body-md focus:ring-primary focus:border-primary" placeholder="ex: École Polytechnique" type="text"/>
+</div>
+<div class="space-y-base">
+<label class="font-label-sm text-on-surface-variant uppercase">Slug (URL)</label>
+<div class="flex">
+<span class="inline-flex items-center px-md rounded-l-lg border border-r-0 border-outline-variant bg-surface-container-low font-body-sm text-on-surface-variant">
+                                    edu.com/
+                                </span>
+<input class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-lg border-outline-variant font-body-md focus:ring-primary focus:border-primary" placeholder="polytechnique" type="text"/>
+</div>
+</div>
+</div>
+</section>
+<hr class="border-outline-variant"/>
+<!-- Section 2: White Label Design -->
+<section>
+<div class="flex items-center gap-sm mb-md text-primary">
+<span class="material-symbols-outlined text-[20px]">palette</span>
+<h3 class="font-headline-sm text-headline-sm">Design White Label</h3>
+</div>
+<div class="grid grid-cols-12 gap-lg">
+<div class="col-span-4 space-y-lg">
+<div class="space-y-base">
+<label class="font-label-sm text-on-surface-variant uppercase">Couleur Primaire</label>
+<div class="flex items-center gap-md">
+<input class="w-10 h-10 rounded border-none cursor-pointer" type="color" value="#091426"/>
+<input class="flex-1 border-outline-variant rounded-lg font-data-mono text-body-sm" type="text" value="#091426"/>
+</div>
+</div>
+<div class="space-y-base">
+<label class="font-label-sm text-on-surface-variant uppercase">Couleur Secondaire</label>
+<div class="flex items-center gap-md">
+<input class="w-10 h-10 rounded border-none cursor-pointer" type="color" value="#85f8c4"/>
+<input class="flex-1 border-outline-variant rounded-lg font-data-mono text-body-sm" type="text" value="#85f8c4"/>
+</div>
+</div>
+</div>
+<div class="col-span-8">
+<label class="font-label-sm text-on-surface-variant uppercase mb-base block">Logo de l'établissement</label>
+<div class="border-2 border-dashed border-outline-variant rounded-xl p-xl flex flex-col items-center justify-center bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-[40px] text-outline mb-md group-hover:scale-110 transition-transform">cloud_upload</span>
+<p class="font-body-md text-primary font-medium">Cliquez ou glissez votre logo ici</p>
+<p class="font-label-sm text-on-surface-variant mt-xs">PNG, SVG jusqu'à 5MB (Recommandé: 400x120px)</p>
+</div>
+</div>
+</div>
+</section>
+<hr class="border-outline-variant"/>
+<!-- Section 3: Admin Access -->
+<section>
+<div class="flex items-center gap-sm mb-md text-primary">
+<span class="material-symbols-outlined text-[20px]">admin_panel_settings</span>
+<h3 class="font-headline-sm text-headline-sm">Accès Administrateur</h3>
+</div>
+<div class="max-w-md space-y-base">
+<label class="font-label-sm text-on-surface-variant uppercase">Email du Manager Principal</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">mail</span>
+<input class="w-full border-outline-variant rounded-lg pl-10 font-body-md focus:ring-primary focus:border-primary" placeholder="manager@etablissement.fr" type="email"/>
+</div>
+<p class="font-label-sm text-on-surface-variant">Un email d'invitation sera envoyé pour configurer les identifiants.</p>
+</div>
+</section>
+</div>
+<!-- Modal Footer -->
+<div class="px-xl py-lg border-t border-outline-variant flex justify-end gap-md bg-surface-container-low/30">
+<button class="px-lg py-md border border-outline-variant text-primary rounded-lg font-label-md hover:bg-surface-container-high transition-colors active:scale-95">
+                    Annuler
+                </button>
+<button class="bg-primary text-white px-xl py-md rounded-lg font-label-md flex items-center gap-md shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">dns</span>
+                    Provisionner l'établissement
+                </button>
+</div>
+</div>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Simple color picker sync (visual only)
+            const colorInputs = document.querySelectorAll('input[type="color"]');
+            colorInputs.forEach(input => {
+                input.addEventListener('input', (e) => {
+                    const textInput = e.target.nextElementSibling;
+                    if (textInput) textInput.value = e.target.value.toUpperCase();
+                });
+            });
+
+            // Close modal button logic
+            const closeBtn = document.querySelector('button .material-symbols-outlined:contains("close")')?.parentElement;
+            if (closeBtn) {
+                closeBtn.onclick = () => {
+                    document.querySelector('.modal-overlay').classList.add('opacity-0');
+                    setTimeout(() => document.querySelector('.modal-overlay').remove(), 300);
+                };
+            }
+        });
+
+        // Utility for contains selector in vanilla JS
+        if (!window.NodeList.prototype.forEach) {
+            window.NodeList.prototype.forEach = Array.prototype.forEach;
+        }
+    </script>
+</body></html>

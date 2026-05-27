@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EduAdmin Pro - Superadmin Global Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#0f172a", // Slate 800
+                    "primary-container": "#1e293b",
+                    "on-primary": "#ffffff",
+                    "accent": "#1d4ed8", // Blue 700
+                    "secondary": "#15803d", // Green (Senegal flag inspired)
+                    "error": "#b91c1c", // Red (Senegal flag inspired)
+                    "warning": "#eab308", // Yellow (Senegal flag inspired)
+                    "background": "#f8f9ff",
+                    "surface": "#ffffff",
+                    "surface-container": "#f1f5f9",
+                    "surface-container-high": "#e2e8f0",
+                    "on-surface": "#0f172a",
+                    "on-surface-variant": "#64748b",
+                    "outline": "#cbd5e1",
+                    "outline-variant": "#e2e8f0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "sm": "8px",
+                    "xl": "32px",
+                    "margin-desktop": "32px",
+                    "base": "4px",
+                    "md": "16px",
+                    "margin-mobile": "16px",
+                    "gutter": "20px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "body": ["Inter", "sans-serif"],
+                    "display": ["Inter", "sans-serif"]
+            },
+            "fontSize": {
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "data-mono": ["13px", {"lineHeight": "18px", "letterSpacing": "-0.01em", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        :root {
+            --primary: #0f172a;
+            --accent: #1d4ed8;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9ff;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .btn-interact {
+            transition: transform 0.1s ease-in-out;
+        }
+        .btn-interact:active {
+            transform: scale(0.96);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-screen w-[280px] bg-primary flex flex-col p-md z-50">
+<!-- Brand Header -->
+<div class="mb-xl px-sm">
+<h1 class="font-headline-sm text-headline-sm text-white">EduAdmin Pro</h1>
+<p class="text-slate-400 text-[11px] uppercase tracking-wider">Superadmin Console</p>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 space-y-sm">
+<!-- Active Tab: Établissements -->
+<a class="flex items-center gap-md px-md py-sm text-white bg-accent rounded-lg font-bold btn-interact" href="#">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+<span class="text-label-md">Établissements</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-slate-300 hover:bg-primary-container hover:text-white transition-colors rounded-lg btn-interact" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-label-md">Télémétrie</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-slate-300 hover:bg-primary-container hover:text-white transition-colors rounded-lg btn-interact" href="#">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+<span class="text-label-md">Sécurité</span>
+</a>
+</nav>
+<!-- Footer Links -->
+<div class="mt-auto space-y-sm pt-md border-t border-slate-700/50">
+<a class="flex items-center gap-md px-md py-sm text-slate-300 hover:bg-primary-container hover:text-white transition-colors rounded-lg btn-interact" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-md">Paramètres</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-slate-300 hover:bg-primary-container hover:text-white transition-colors rounded-lg btn-interact" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="text-label-md">Aide</span>
+</a>
+</div>
+</aside>
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 right-0 h-16 w-[calc(100%-280px)] bg-surface border-b border-outline-variant flex justify-between items-center px-margin-desktop z-40">
+<div class="flex items-center gap-lg">
+<span class="font-headline-md text-headline-md font-bold text-primary">EduAdmin</span>
+<span class="bg-primary text-white px-sm py-xs rounded text-[10px] font-bold tracking-widest uppercase">Superadmin Plateforme</span>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]" data-icon="search">search</span>
+<input class="bg-surface-container border-none rounded-full pl-xl pr-md py-xs text-body-sm w-64 focus:ring-2 focus:ring-accent/20 transition-all" placeholder="Rechercher..." type="text"/>
+</div>
+<button class="p-xs text-on-surface-variant hover:bg-surface-container rounded-full transition-all btn-interact">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:bg-surface-container rounded-full transition-all btn-interact">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Superadmin Avatar" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBh9QyX3Q41BaP-iFw5vn2WMkN3u9DCVhymZfocrF8UOC6Zs2l6HI7b0Vr-FItHCmSJ_kiTkR2P2GoHb4XBRqfn9wIN5KG5pyU2y5IRfhgD953W6S5nBqrCPKDK3IOwPyKRkHKzdS9N4bxfH5De-TrAP9OK1hygljmd87lCsOsOY6yrLJMSy6Zt8pWJakzQYzfuUO_Kizlt7OvuW40P_hmUg3Edunsc5fGdWVwpjUXxCDBvIpnQItGQkAxBpAVBbV5yBBJlhO8vAiY"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[280px] pt-16 p-xl">
+<!-- Page Header -->
+<div class="mb-xl">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Dashboard Global</h2>
+<p class="text-on-surface-variant font-body-md">Vue d'ensemble de l'écosystème EduAdmin Pro.</p>
+</div>
+<!-- KPI Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg mb-xl">
+<!-- KPI 1 -->
+<div class="bg-surface border border-outline-variant rounded-xl p-lg relative overflow-hidden group shadow-sm transition-all hover:shadow-md">
+<div class="flex justify-between items-start mb-md">
+<div>
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-xs">Établissements Actifs</p>
+<h3 class="text-display font-display text-primary">14</h3>
+</div>
+<div class="bg-primary-container p-sm rounded-lg text-white">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+</div>
+</div>
+<div class="flex items-center gap-xs text-[12px] text-secondary font-bold">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>
+<span>+2 ce mois</span>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface border border-outline-variant rounded-xl p-lg relative overflow-hidden group shadow-sm transition-all hover:shadow-md">
+<div class="flex justify-between items-start mb-md">
+<div>
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-xs">Inscriptions Globales</p>
+<h3 class="text-display font-display text-primary">14,250</h3>
+</div>
+<div class="bg-primary-container p-sm rounded-lg text-white">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+</div>
+</div>
+<div class="flex items-center gap-xs text-[12px] text-secondary font-bold">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>
+<span>+8.4% vs N-1</span>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface border border-outline-variant rounded-xl p-lg relative overflow-hidden group shadow-sm transition-all hover:shadow-md">
+<div class="flex justify-between items-start mb-md">
+<div>
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-xs">Revenus Traités</p>
+<h3 class="text-display font-display text-primary">356M <span class="text-headline-sm">FCFA</span></h3>
+</div>
+<div class="bg-primary-container p-sm rounded-lg text-white">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+</div>
+</div>
+<div class="flex items-center gap-xs text-[12px] text-secondary font-bold">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>
+<span>+12% croissance annuelle</span>
+</div>
+</div>
+</div>
+<!-- Data Table Section -->
+<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<div class="px-lg py-md border-b border-outline-variant flex justify-between items-center">
+<h4 class="font-headline-sm text-primary">Liste des Établissements</h4>
+<div class="flex items-center gap-md">
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container text-primary font-label-md rounded-lg hover:bg-surface-container-high transition-colors btn-interact">
+<span class="material-symbols-outlined text-[18px]" data-icon="filter_list">filter_list</span>
+                    Filtrer
+                </button>
+<button class="flex items-center gap-xs px-md py-sm bg-accent text-white font-label-md rounded-lg hover:opacity-90 transition-all btn-interact">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+                    Ajouter
+                </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 border-b border-outline-variant">
+<th class="px-lg py-md font-label-sm text-on-surface-variant uppercase">Nom du Collège</th>
+<th class="px-lg py-md font-label-sm text-on-surface-variant uppercase">Slug</th>
+<th class="px-lg py-md font-label-sm text-on-surface-variant uppercase">Gérant</th>
+<th class="px-lg py-md font-label-sm text-on-surface-variant uppercase">Effectif</th>
+<th class="px-lg py-md font-label-sm text-on-surface-variant uppercase">Statut</th>
+<th class="px-lg py-md font-label-sm text-on-surface-variant uppercase text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50/50 transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded bg-slate-100 flex items-center justify-center text-primary font-bold">CN</div>
+<span class="font-body-md text-primary font-semibold">Collège Notre Dame</span>
+</div>
+</td>
+<td class="px-lg py-md font-data-mono text-on-surface-variant">notre-dame-edu</td>
+<td class="px-lg py-md font-body-md text-on-surface-variant">Jean Dupont</td>
+<td class="px-lg py-md font-body-md text-on-surface-variant">1,240</td>
+<td class="px-lg py-md">
+<span class="px-sm py-xs bg-secondary/10 text-secondary text-[10px] font-bold rounded-full uppercase tracking-widest border border-secondary/20">Active</span>
+</td>
+<td class="px-lg py-md text-right">
+<div class="flex justify-end gap-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-xs text-on-surface-variant hover:text-accent transition-colors btn-interact">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:text-warning transition-colors btn-interact">
+<span class="material-symbols-outlined" data-icon="pause_circle">pause_circle</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50/50 transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded bg-slate-100 flex items-center justify-center text-primary font-bold">LY</div>
+<span class="font-body-md text-primary font-semibold">Lycée de la Victoire</span>
+</div>
+</td>
+<td class="px-lg py-md font-data-mono text-on-surface-variant">victoire-school</td>
+<td class="px-lg py-md font-body-md text-on-surface-variant">Marie Kouassi</td>
+<td class="px-lg py-md font-body-md text-on-surface-variant">2,100</td>
+<td class="px-lg py-md">
+<span class="px-sm py-xs bg-error/10 text-error text-[10px] font-bold rounded-full uppercase tracking-widest border border-error/20">Suspended</span>
+</td>
+<td class="px-lg py-md text-right">
+<div class="flex justify-end gap-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-xs text-on-surface-variant hover:text-accent transition-colors btn-interact">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:text-secondary transition-colors btn-interact">
+<span class="material-symbols-outlined" data-icon="play_circle">play_circle</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50/50 transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded bg-slate-100 flex items-center justify-center text-primary font-bold">BS</div>
+<span class="font-body-md text-primary font-semibold">Bilingual School Academy</span>
+</div>
+</td>
+<td class="px-lg py-md font-data-mono text-on-surface-variant">bs-academy-int</td>
+<td class="px-lg py-md font-body-md text-on-surface-variant">Robert Smith</td>
+<td class="px-lg py-md font-body-md text-on-surface-variant">850</td>
+<td class="px-lg py-md">
+<span class="px-sm py-xs bg-secondary/10 text-secondary text-[10px] font-bold rounded-full uppercase tracking-widest border border-secondary/20">Active</span>
+</td>
+<td class="px-lg py-md text-right">
+<div class="flex justify-end gap-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-xs text-on-surface-variant hover:text-accent transition-colors btn-interact">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:text-warning transition-colors btn-interact">
+<span class="material-symbols-outlined" data-icon="pause_circle">pause_circle</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50/50 transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded bg-slate-100 flex items-center justify-center text-primary font-bold">SP</div>
+<span class="font-body-md text-primary font-semibold">Saint Pierre Excellence</span>
+</div>
+</td>
+<td class="px-lg py-md font-data-mono text-on-surface-variant">st-pierre-edu</td>
+<td class="px-lg py-md font-body-md text-on-surface-variant">Fatim Diallo</td>
+<td class="px-lg py-md font-body-md text-on-surface-variant">1,560</td>
+<td class="px-lg py-md">
+<span class="px-sm py-xs bg-secondary/10 text-secondary text-[10px] font-bold rounded-full uppercase tracking-widest border border-secondary/20">Active</span>
+</td>
+<td class="px-lg py-md text-right">
+<div class="flex justify-end gap-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-xs text-on-surface-variant hover:text-accent transition-colors btn-interact">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:text-warning transition-colors btn-interact">
+<span class="material-symbols-outlined" data-icon="pause_circle">pause_circle</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-lg py-md border-t border-outline-variant flex justify-between items-center text-label-sm text-on-surface-variant">
+<span>Affichage de 1 à 4 sur 14 établissements</span>
+<div class="flex gap-xs">
+<button class="p-xs hover:bg-surface-container rounded disabled:opacity-30 btn-interact" disabled="">
+<span class="material-symbols-outlined text-[20px]" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center bg-accent text-white rounded font-bold btn-interact">1</button>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-surface-container rounded btn-interact">2</button>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-surface-container rounded btn-interact">3</button>
+<button class="p-xs hover:bg-surface-container rounded btn-interact">
+<span class="material-symbols-outlined text-[20px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

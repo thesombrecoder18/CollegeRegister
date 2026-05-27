@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest"></script>
+<title>AcademicPortal - Paiement</title>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed": "#002114",
+                      "primary-fixed": "#dae2fd",
+                      "primary-container": "#131b2e",
+                      "outline-variant": "#c6c6cd",
+                      "secondary-fixed-dim": "#68dba9",
+                      "tertiary": "#000000",
+                      "on-primary-container": "#7c839b",
+                      "primary": "#000000",
+                      "surface-bright": "#f8f9ff",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-variant": "#d3e4fe",
+                      "on-error-container": "#93000a",
+                      "on-tertiary-container": "#a67e00",
+                      "surface-dim": "#cbdbf5",
+                      "outline": "#76777d",
+                      "on-primary-fixed": "#131b2e",
+                      "surface-container": "#e5eeff",
+                      "on-error": "#ffffff",
+                      "error": "#ba1a1a",
+                      "on-tertiary": "#ffffff",
+                      "surface-tint": "#565e74",
+                      "inverse-on-surface": "#eaf1ff",
+                      "on-secondary-container": "#00714e",
+                      "inverse-primary": "#bec6e0",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed": "#251a00",
+                      "on-background": "#0b1c30",
+                      "surface-container-highest": "#d3e4fe",
+                      "on-tertiary-fixed-variant": "#5a4300",
+                      "primary-fixed-dim": "#bec6e0",
+                      "background": "#f8f9ff",
+                      "on-surface-variant": "#45464d",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "secondary": "#006c4a",
+                      "surface-container-high": "#dce9ff",
+                      "error-container": "#ffdad6",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed-variant": "#005137",
+                      "on-surface": "#0b1c30",
+                      "tertiary-container": "#251a00",
+                      "tertiary-fixed": "#ffdf9a",
+                      "inverse-surface": "#213145",
+                      "secondary-fixed": "#85f8c4",
+                      "surface-container-low": "#eff4ff",
+                      "secondary-container": "#82f5c1",
+                      "surface": "#f8f9ff",
+                      "tertiary-fixed-dim": "#f7be1d"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sm": "8px",
+                      "xl": "40px",
+                      "2xl": "64px",
+                      "margin-desktop": "48px",
+                      "base": "4px",
+                      "gutter": "24px",
+                      "md": "16px",
+                      "lg": "24px",
+                      "xs": "4px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "body-sm": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "headline-xl-mobile": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "display-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-xl-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .step-active { border-color: #f7be1d; color: #f7be1d; }
+        .step-complete { border-color: #006c4a; color: #006c4a; }
+        .step-inactive { border-color: #c6c6cd; color: #76777d; }
+        
+        input[type="radio"]:checked + label {
+            border-color: #0b1c30;
+            background-color: #f8f9ff;
+            box-shadow: 0 0 0 1px #0b1c30;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+<!-- Top Navigation Shell -->
+<header class="bg-surface dark:bg-surface-container-lowest text-primary dark:text-inverse-primary docked full-width top-0 sticky z-50 border-b border-outline-variant dark:border-outline flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined style_brand_logo font-headline-md text-headline-md font-bold text-on-surface dark:text-inverse-on-surface">account_balance</span>
+<span class="font-headline-md text-headline-md font-bold text-on-surface dark:text-inverse-on-surface">AcademicPortal</span>
+</div>
+<button class="font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors px-md py-sm rounded">
+            Admin Access
+        </button>
+</header>
+<main class="flex-grow w-full max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop py-xl">
+<!-- Stepper Progress Bar -->
+<div class="flex items-center justify-center gap-md mb-2xl">
+<!-- Step 1: Complete -->
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full border-2 step-complete flex items-center justify-center bg-white">
+<i class="w-5 h-5" data-lucide="check"></i>
+</div>
+<span class="hidden md:block font-label-md text-label-md text-secondary">Identification</span>
+</div>
+<div class="w-12 h-[2px] bg-outline-variant"></div>
+<!-- Step 2: Active -->
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full border-2 step-active flex items-center justify-center bg-white">
+<span class="font-label-md text-label-md">2</span>
+</div>
+<span class="hidden md:block font-label-md text-label-md text-tertiary-fixed-dim">Paiement</span>
+</div>
+<div class="w-12 h-[2px] bg-outline-variant"></div>
+<!-- Step 3: Inactive -->
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full border-2 step-inactive flex items-center justify-center bg-white">
+<span class="font-label-md text-label-md">3</span>
+</div>
+<span class="hidden md:block font-label-md text-label-md text-outline">Validation</span>
+</div>
+</div>
+<!-- Dynamic Summary Banner -->
+<div class="bg-surface-container text-on-surface px-lg py-md rounded-lg border border-outline-variant mb-xl flex flex-col md:flex-row md:items-center justify-between gap-md">
+<div class="flex items-center gap-sm">
+<i class="text-on-secondary-container w-5 h-5" data-lucide="info"></i>
+<div class="flex flex-wrap gap-x-md gap-y-xs">
+<span class="font-body-sm text-body-sm">Niveau: <strong class="font-bold">6ème</strong></span>
+<span class="text-outline-variant">|</span>
+<span class="font-body-sm text-body-sm">Classe pré-attribuée: <strong class="font-bold">6ème A</strong></span>
+</div>
+</div>
+<div class="bg-white px-md py-xs rounded border border-outline-variant">
+<span class="font-label-md text-label-md">Montant de l'inscription: </span>
+<span class="font-headline-md text-headline-md text-primary">25 000 FCFA</span>
+</div>
+</div>
+<!-- Payment Selection -->
+<section class="max-w-2xl mx-auto">
+<h2 class="font-headline-md text-headline-md mb-lg text-center">Mode de paiement</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg mb-2xl">
+<!-- Wave Option -->
+<div class="relative">
+<input class="peer absolute opacity-0 w-full h-full cursor-pointer z-10" id="wave" name="payment_method" onchange="toggleButton()" type="radio" value="wave"/>
+<label class="flex flex-col items-center justify-center p-xl border border-outline-variant rounded-xl transition-all hover:border-outline cursor-pointer bg-white h-full text-center" for="wave">
+<div class="w-16 h-16 mb-md bg-surface-container-low rounded-full flex items-center justify-center overflow-hidden">
+<img alt="" class="w-12 h-12 object-contain" data-alt="A professional, high-fidelity placeholder logo for Wave mobile money service, featuring clean typography and a modern financial icon. The image is set against a clean, bright studio background with soft ambient lighting, reflecting a corporate and secure institutional atmosphere suitable for an official banking application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpEkcdX4Ge5Rrv8Zi7veZAPa7v8j7xA5ndqGDRlTx0umb2hgUL2F047bsMG2xVQTZ0jM36uWa90Pn619YVUQOSrtdJckrtp6ncShHnOsYB0MO5EDkskbDploQJyxmck6dxXiqhlAOcqV_pN4JaePLDfBTofih3S_OJQgw6LyEbOzQaHNMxty5ORLHH-qbc3m3qKBO5L1VNR1mYtDU6QUHpaeoQGN8pD_Nv7TAMyoT1uI2GV22moyVHjjt4GJP5WwoYITVQFPzs3Dk"/>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Payer avec Wave</span>
+</label>
+<div class="absolute top-2 right-2 opacity-0 peer-checked:opacity-100 text-secondary">
+<i class="w-6 h-6 fill-secondary text-white" data-lucide="check-circle-2"></i>
+</div>
+</div>
+<!-- Orange Money Option -->
+<div class="relative">
+<input class="peer absolute opacity-0 w-full h-full cursor-pointer z-10" id="om" name="payment_method" onchange="toggleButton()" type="radio" value="orange_money"/>
+<label class="flex flex-col items-center justify-center p-xl border border-outline-variant rounded-xl transition-all hover:border-outline cursor-pointer bg-white h-full text-center" for="om">
+<div class="w-16 h-16 mb-md bg-surface-container-low rounded-full flex items-center justify-center overflow-hidden">
+<img alt="" class="w-12 h-12 object-contain" data-alt="A sophisticated placeholder logo for Orange Money, designed with high-end corporate graphics and vibrant institutional colors. The setting is a minimalist, modern digital space with soft global illumination that conveys trust and professional reliability for a national payment portal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBO3exEeIyvRiLrYcN7MK--kp9iZCjAydVltlpm9dzroVYsk1kBree8U2iXd8OM_iu7VCb4ZaYm1vsqOT8FJGCcPVxqdk1FTOyavIu3ZrKmsCYjeGlNE-DRLZTW0Umt3ct8OYbq3a7Kc9CEOh45NMkBYSV4VF4-rH8sieR4VOcv7gmHX4S70Dq_AXz4Cwl9TGKY2PXE7ACD_161dNZKW7GuV5RLcWHQqOu6iE07mtpmx51jcPxi19iOaMmCFGORwu5FWJnDxeUw4Ko"/>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Payer avec Orange Money</span>
+</label>
+<div class="absolute top-2 right-2 opacity-0 peer-checked:opacity-100 text-secondary">
+<i class="w-6 h-6 fill-secondary text-white" data-lucide="check-circle-2"></i>
+</div>
+</div>
+</div>
+<!-- Bottom Actions -->
+<div class="flex flex-col gap-md items-center">
+<button class="w-full md:w-auto px-2xl py-md bg-outline-variant text-white font-label-md text-label-md rounded-lg cursor-not-allowed transition-all duration-300" disabled="" id="generate-btn">
+                    Générer ma référence
+                </button>
+<button class="text-on-surface-variant font-label-md text-label-md hover:underline py-sm">
+                    Retour à l'étape précédente
+                </button>
+</div>
+</section>
+</main>
+<!-- Bottom Nav Shell (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center py-sm bg-surface dark:bg-surface-container-lowest border-t border-outline-variant dark:border-outline z-50">
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined">how_to_reg</span>
+<span class="font-label-sm-mobile text-label-sm-mobile">Registration</span>
+</div>
+<div class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim font-bold">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-sm-mobile text-label-sm-mobile">Payments</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline">
+<span class="material-symbols-outlined">assignment_turned_in</span>
+<span class="font-label-sm-mobile text-label-sm-mobile">Status</span>
+</div>
+</nav>
+<script>
+        lucide.createIcons();
+
+        function toggleButton() {
+            const btn = document.getElementById('generate-btn');
+            const radios = document.getElementsByName('payment_method');
+            let checked = false;
+            
+            for (const radio of radios) {
+                if (radio.checked) {
+                    checked = true;
+                    break;
+                }
+            }
+            
+            if (checked) {
+                btn.disabled = false;
+                btn.classList.remove('bg-outline-variant', 'cursor-not-allowed');
+                btn.classList.add('bg-[#059669]', 'hover:bg-[#047857]', 'shadow-lg');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('bg-outline-variant', 'cursor-not-allowed');
+                btn.classList.remove('bg-[#059669]', 'hover:bg-[#047857]', 'shadow-lg');
+            }
+        }
+    </script>
+</body></html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#bec6e0",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-fixed": "#dae2fd",
+                        "on-tertiary-container": "#a67e00",
+                        "surface-tint": "#565e74",
+                        "outline": "#76777d",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#131b2e",
+                        "on-surface": "#0b1c30",
+                        "secondary": "#006c4a",
+                        "secondary-fixed": "#85f8c4",
+                        "on-tertiary-fixed": "#251a00",
+                        "inverse-surface": "#213145",
+                        "primary": "#000000",
+                        "tertiary-container": "#251a00",
+                        "inverse-primary": "#bec6e0",
+                        "tertiary-fixed": "#ffdf9a",
+                        "on-secondary-container": "#00714e",
+                        "surface-container-high": "#dce9ff",
+                        "surface-container": "#e5eeff",
+                        "surface": "#f8f9ff",
+                        "on-secondary-fixed-variant": "#005137",
+                        "on-error-container": "#93000a",
+                        "background": "#f8f9ff",
+                        "surface-dim": "#cbdbf5",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "on-primary-container": "#7c839b",
+                        "secondary-fixed-dim": "#68dba9",
+                        "surface-variant": "#d3e4fe",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#131b2e",
+                        "on-background": "#0b1c30",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#f7be1d",
+                        "surface-bright": "#f8f9ff",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#c6c6cd",
+                        "on-tertiary-fixed-variant": "#5a4300",
+                        "secondary-container": "#82f5c1",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#45464d",
+                        "tertiary": "#000000",
+                        "surface-container-low": "#eff4ff",
+                        "on-secondary-fixed": "#002114",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#d3e4fe"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "lg": "24px",
+                        "xl": "40px",
+                        "margin-desktop": "48px",
+                        "base": "4px",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "2xl": "64px",
+                        "md": "16px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "headline-xl-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                        "headline-xl-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .status-badge-pending { background-color: #ffdf9a; color: #5a4300; } /* Matches tertiary-fixed / on-tertiary-fixed-variant */
+        .status-badge-validated { background-color: #82f5c1; color: #005137; } /* Matches secondary-container / on-secondary-fixed-variant */
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- Fixed SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant dark:border-outline flex flex-col py-md space-y-2 z-50">
+<div class="px-lg pb-xl pt-md">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Admin Central</h1>
+<p class="font-label-md text-label-md text-on-surface-variant opacity-70">Management Console</p>
+</div>
+<nav class="flex-1 space-y-2">
+<!-- Dashboard Tab -->
+<a class="flex items-center gap-md px-lg py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg mx-2 transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined group-active:scale-90 transition-transform">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- Payments Tab (ACTIVE) -->
+<a class="flex items-center gap-md px-lg py-sm bg-secondary-container text-on-secondary-container rounded-lg mx-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="font-label-md text-label-md">Payments</span>
+</a>
+<!-- Classes Tab -->
+<a class="flex items-center gap-md px-lg py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg mx-2 transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined group-active:scale-90 transition-transform">school</span>
+<span class="font-label-md text-label-md">Classes</span>
+</a>
+</nav>
+<div class="mt-auto space-y-2">
+<a class="flex items-center gap-md px-lg py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg mx-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-md px-lg py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg mx-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<div class="px-lg pt-md border-t border-outline-variant mt-sm">
+<div class="flex items-center gap-md">
+<img alt="College Crest" class="w-10 h-10 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFzqLfk95N-XRVswx8dJYPjcKyAbjRrGp9n_62f1hMtTNgI0YpGReTci3iLMq0Dhy6efL7Z6J1qN11M95L9QsuoaWsZYkJ-syPCJHNuhXgaczeI5n8Rap9UJ6LXzHnnPJEVMGqrBp-TqhDMRRmwwf8VwtcAlN34rTxeLZStQ3nCGLgLyz3BTZwSZQ9ym6-dmrASFWUY7dCrnMa1TkmN55oMu8AiYziHV_vfPdBIjeX8DyV2lhpSrT5YxkndbM-7k5G-Ys0QWKDIPU"/>
+<div class="overflow-hidden">
+<p class="font-label-md text-label-md truncate font-bold">Admin User</p>
+<p class="text-[10px] uppercase tracking-wider text-on-surface-variant">Administrator</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="ml-[260px] min-h-screen flex flex-col">
+<!-- TopAppBar (Breadcrumbs) -->
+<header class="sticky top-0 z-40 bg-surface dark:bg-surface-dim border-b border-outline-variant shadow-sm flex justify-between items-center px-lg h-16 w-full">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary cursor-pointer">menu</span>
+<nav class="flex items-center gap-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Dashboard</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">chevron_right</span>
+<span class="font-body-sm text-body-sm text-primary font-bold">Breadcrumbs</span>
+</nav>
+</div>
+<div class="flex items-center gap-lg">
+<button class="bg-primary text-white px-md py-xs rounded hover:bg-opacity-90 transition-colors font-label-sm text-label-sm">Admin Access</button>
+<img alt="Administrator Profile" class="w-10 h-10 rounded-full border-2 border-outline-variant cursor-pointer active:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUxK5mNLB5mM6vOaQLll61_0d7QMkGSK3zPPIiOFStpq79yS3y2_o9EHDKAIQW0lT7Z4U2IrpeHIEQY3KhyWFOJN4q1HyXlQFPE_DxlXOLoTcd9ptjHma8rSUnctA0rW5aMUq950FmrjyuoQRq9OF34g_PGOaN21zY93Bv3Nu8n-MbcR1ZrhX8SCuPG62IJ0K_I68QwVqMN5sBztgVIAIRQl-iuUiY-NrjnhXzLd-8KLBtJ4HMy6psmRvV2E5WTnX4MJuh9ffpLcY"/>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="p-lg max-w-[1200px] w-full mx-auto space-y-lg">
+<!-- Page Header & Action Bar -->
+<div class="flex flex-col gap-md">
+<h2 class="font-headline-xl text-headline-xl text-on-surface">Validation des Paiements</h2>
+<div class="flex flex-wrap items-center justify-between gap-md mt-base">
+<!-- Search Bar -->
+<div class="relative w-full md:w-[400px]">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant">search</span>
+<input class="w-full pl-10 pr-md py-2 bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-fixed-dim focus:border-primary transition-all font-body-sm text-body-sm" placeholder="Rechercher un étudiant ou une référence..." type="text"/>
+</div>
+<!-- Action Button -->
+<button class="flex items-center gap-sm bg-surface-container-lowest border border-outline-variant text-primary px-lg py-2 rounded-lg font-label-md text-label-md hover:bg-surface-variant transition-colors group">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                        Exporter Excel
+                    </button>
+</div>
+</div>
+<!-- Filter Pills -->
+<div class="flex items-center gap-sm overflow-x-auto pb-base">
+<button class="px-lg py-xs bg-primary text-on-primary rounded-full font-label-md text-label-md whitespace-nowrap">Tous</button>
+<button class="px-lg py-xs bg-surface-container-lowest border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md whitespace-nowrap hover:bg-surface-variant transition-colors">En attente</button>
+<button class="px-lg py-xs bg-surface-container-lowest border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md whitespace-nowrap hover:bg-surface-variant transition-colors">Validés</button>
+<button class="px-lg py-xs bg-surface-container-lowest border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md whitespace-nowrap hover:bg-surface-variant transition-colors">Rejetés</button>
+</div>
+<!-- Data Table Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+<table class="w-full border-collapse text-left">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-lg py-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Étudiant</th>
+<th class="px-lg py-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Niveau</th>
+<th class="px-lg py-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Classe</th>
+<th class="px-lg py-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Référence</th>
+<th class="px-lg py-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Date</th>
+<th class="px-lg py-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Statut</th>
+<th class="px-lg py-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<img alt="Student Portrait" class="w-8 h-8 rounded-full bg-surface-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVaNdlEGHYh1uOPVSZgPFwenw1FeWiP_QGnAwJGffdLMURHXyEpM19Ott4g6izKkBkUflkAdi60BBzLBF8WUjhq74pO7BBQiJruHXt0_ehMYh9AaChml-aKfhFd3u2FwKVyVxwO_7t4SwlMdkoGiWEWv2rEGKTkLJ4SOXSJ7WRVwEn6Wf0U_BHPa9d0AbvoQxTs_K8RIEH3H9ZmJCoGQDsJZmboAiKlBQkqGdzxwn63REQtm0jcAv3Fw2UuCcNedSiWd1zy6IlkRM"/>
+<span class="font-body-md text-body-md font-medium">Moussa Diop</span>
+</div>
+</td>
+<td class="px-lg py-md font-body-sm text-body-sm">Licence 1</td>
+<td class="px-lg py-md font-body-sm text-body-sm">Informatique A</td>
+<td class="px-lg py-md font-mono text-[13px] text-on-surface-variant">PAY-2023-8841</td>
+<td class="px-lg py-md font-body-sm text-body-sm text-on-surface-variant">24 Oct 2023</td>
+<td class="px-lg py-md">
+<span class="px-sm py-[2px] rounded status-badge-pending font-label-sm text-label-sm inline-flex items-center gap-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed-dim"></span>
+                                    En attente
+                                </span>
+</td>
+<td class="px-lg py-md text-right">
+<button class="p-xs hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<img alt="Student Portrait" class="w-8 h-8 rounded-full bg-surface-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzpP3CvIR9NC_zDDp2EaRFpYTvraw4d01b7yRE5Pb2ltE5tE2Xe18nkCNyxvJSPDsWiXz8zsZrHTq34KzGMPuqe54eKLcXXwsWsXVipzuk_WiA5szxb_dy0R8LmzL7UHSErVz0jXOej7blZLH1no-GZNhbfzZxbjjRa2LfFGZI6r4U44WZjIRGONCOiuOFGlyJz1u_Sgd4MpzVdVWz0JaIEXgJ204UrcmoQyQFP24qVHhSrP0O8tkkpmXwv53QhsC2N8tGHTEXpls"/>
+<span class="font-body-md text-body-md font-medium">Fatou Sow</span>
+</div>
+</td>
+<td class="px-lg py-md font-body-sm text-body-sm">Master 2</td>
+<td class="px-lg py-md font-body-sm text-body-sm">Gestion Projets</td>
+<td class="px-lg py-md font-mono text-[13px] text-on-surface-variant">PAY-2023-9012</td>
+<td class="px-lg py-md font-body-sm text-body-sm text-on-surface-variant">23 Oct 2023</td>
+<td class="px-lg py-md">
+<span class="px-sm py-[2px] rounded status-badge-validated font-label-sm text-label-sm inline-flex items-center gap-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                    Validés
+                                </span>
+</td>
+<td class="px-lg py-md text-right">
+<button class="p-xs hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<img alt="Student Portrait" class="w-8 h-8 rounded-full bg-surface-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9YxZmYblZ0pyFFGdaUgdOJp4cRrfONfdOInUjYxMIQgEzTdOs6-wvbrt4eVvaCPFM52IpTk3Av51v7yVnaYy0byOLkH83oIR51v38fBYg7KdKQSByRBxRmzKcThtqtbkvmfTi5fsjU9QfjuABGmIqN9FPDGX-UqX1JxgDYbpJiuCJ6Wt5-hebFUQ6Y-x1Qdsm4y01hDOIaaRjuTE4MiSpstlq3UbJruaCGm6tj6esyOlm_MCcgmUoWm1PLZDH0ynOC691tfNwHTo"/>
+<span class="font-body-md text-body-md font-medium">Ibrahima Ndiaye</span>
+</div>
+</td>
+<td class="px-lg py-md font-body-sm text-body-sm">Licence 3</td>
+<td class="px-lg py-md font-body-sm text-body-sm">Droit Public</td>
+<td class="px-lg py-md font-mono text-[13px] text-on-surface-variant">PAY-2023-7762</td>
+<td class="px-lg py-md font-body-sm text-body-sm text-on-surface-variant">22 Oct 2023</td>
+<td class="px-lg py-md">
+<span class="px-sm py-[2px] rounded status-badge-validated font-label-sm text-label-sm inline-flex items-center gap-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                    Validés
+                                </span>
+</td>
+<td class="px-lg py-md text-right">
+<button class="p-xs hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<img alt="Student Portrait" class="w-8 h-8 rounded-full bg-surface-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkqjhsjC0nK6GukUa5DICAaegMNmPfjCo7zUF2sz9DFLgWxXKgUbFZvOJZ3vtthD4XJkQQqlEDNtNIMcF1uO4rVC6b4oxJF7COKdtzJ61r1T9nMlnVT7ATf4PZpXrAsK3PbiA-MfOu57izYoJRXkx9j-TA5R_srHRJCn1S_mN4KckyuvrLjPsAxiOvYehkIOtrstY8oSgrCk4OustKcSWNNl5VfFi3AZUQDvK3Sc8rAfgi-u6azzzs7W7alQvc1zvAeTPmKnO6pXE"/>
+<span class="font-body-md text-body-md font-medium">Aminata Kane</span>
+</div>
+</td>
+<td class="px-lg py-md font-body-sm text-body-sm">Master 1</td>
+<td class="px-lg py-md font-body-sm text-body-sm">Economie</td>
+<td class="px-lg py-md font-mono text-[13px] text-on-surface-variant">PAY-2023-1120</td>
+<td class="px-lg py-md font-body-sm text-body-sm text-on-surface-variant">21 Oct 2023</td>
+<td class="px-lg py-md">
+<span class="px-sm py-[2px] rounded status-badge-pending font-label-sm text-label-sm inline-flex items-center gap-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed-dim"></span>
+                                    En attente
+                                </span>
+</td>
+<td class="px-lg py-md text-right">
+<button class="p-xs hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination -->
+<div class="px-lg py-md flex items-center justify-between border-t border-outline-variant bg-surface-container-lowest">
+<p class="font-label-sm text-label-sm text-on-surface-variant">Affichage de 1 à 4 sur 156 paiements</p>
+<div class="flex items-center gap-sm">
+<button class="p-xs rounded hover:bg-surface-container-low disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<span class="font-label-md text-label-md px-sm py-xs bg-primary text-on-primary rounded">1</span>
+<button class="font-label-md text-label-md px-sm py-xs hover:bg-surface-container-low rounded">2</button>
+<button class="font-label-md text-label-md px-sm py-xs hover:bg-surface-container-low rounded">3</button>
+<button class="p-xs rounded hover:bg-surface-container-low">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Descriptive Context Image (Bottom Bento) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<div class="md:col-span-2 relative h-48 rounded-xl overflow-hidden border border-outline-variant group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A clean and modern institutional dashboard interface displaying a detailed data table of student financial transactions. The screen features a minimalist design with a soft blue and slate color palette, sharp typography, and status badges in emerald green and amber gold. Soft natural lighting from a nearby window creates a professional and high-transparency workspace environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTy35e8A3dVg8wmMnbJiEe_bqmnqM1yU1E5qLKZZ5hJgFJrdmaCeSYSt35Y4bGsk2n5mNpIEF8F8CgcSt_2C0GkDsxayKDMrRKyaGZKNzqB8OfMvE0GiKyOMcyufRhndqsLFUg0-OohS2cPWKdfQ1v2d7nVqH95DNRQjRUM_RKI7HwiPxD5Pzb1Jg-xlz4XT8RQmUwnfWyQTgSDfDOjywcUraG3mxbxyGQbB04zFdqSrITkkogcba69jxVburc8W4_rzRIsOgONiI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-lg">
+<p class="text-white font-label-md text-label-md">Audit des flux financiers - Année Académique 2023/2024</p>
+</div>
+</div>
+<div class="bg-primary-container p-lg rounded-xl flex flex-col justify-between text-white border border-primary">
+<span class="material-symbols-outlined text-[32px] text-primary-fixed-dim">verified_user</span>
+<div>
+<h4 class="font-headline-md text-headline-md mb-xs">98%</h4>
+<p class="font-label-sm text-label-sm opacity-80 uppercase tracking-widest">Taux de Validation</p>
+</div>
+<p class="font-body-sm text-body-sm opacity-70">Les processus automatisés ont accéléré le traitement de 40% ce trimestre.</p>
+</div>
+</div>
+</main>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('click', () => {
+                // Subtle interaction logic
+                console.log('Row selected');
+            });
+        });
+
+        // Search bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('md:w-[450px]');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('md:w-[450px]');
+        });
+    </script>
+</body></html>

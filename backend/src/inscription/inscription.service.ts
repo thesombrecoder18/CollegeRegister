@@ -96,14 +96,41 @@ export class InscriptionService {
     return inscription;
   }
 
-  async findAllForEcole(ecoleId: string, statut?: StatutInscription) {
-    return this.prisma.inscription.findMany({
-      where: {
-        ecoleId,
-        ...(statut ? { statut } : {}),
+  async findAllForEcole(
+    ecoleId: string,
+    statut?: StatutInscription,
+    page = 1,
+    limit = 50,
+  ) {
+    const skip = (page - 1) * limit;
+
+    const [data, total] = await Promise.all([
+      this.prisma.inscription.findMany({
+        where: {
+          ecoleId,
+          ...(statut ? { statut } : {}),
+        },
+        orderBy: { dateInscrit: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.inscription.count({
+        where: {
+          ecoleId,
+          ...(statut ? { statut } : {}),
+        },
+      }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
       },
-      orderBy: { dateInscrit: 'desc' },
-    });
+    };
   }
 
   async findOne(id: string, user: JwtPayload) {

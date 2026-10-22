@@ -15,7 +15,7 @@ export class ThemeService {
 
   clear(): void {
     this.ecoleSignal.set(null);
-    document.documentElement.style.setProperty('--color-primary', '#1e293b');
-    document.documentElement.style.setProperty('--color-secondary', '#059669');
+    document.documentElement.style.setProperty('--color-primary', '#1b7f5c');
+    document.documentElement.style.setProperty('--color-secondary', '#e8a33d');
   }
 }

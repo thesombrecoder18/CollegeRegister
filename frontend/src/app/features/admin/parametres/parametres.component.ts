@@ -9,22 +9,28 @@ import { IconComponent } from '../../../shared/icon/icon.component';
   imports: [FormsModule, IconComponent],
   template: `
     <div class="animate-fade-in">
-      <h2 class="mb-6 text-xl font-semibold text-slate-900">Paramètres</h2>
+      <div class="mb-7">
+        <h2 class="font-display text-2xl font-bold text-ink">Paramètres</h2>
+        <p class="mt-1 text-sm text-ink-soft">Définissez les frais d'inscription par niveau.</p>
+      </div>
       @if (loading()) {
-        <div class="flex justify-center py-12">
-          <div class="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
-        </div>
+        <div class="card h-80 max-w-lg animate-pulse"><div class="h-full w-full rounded-lg bg-sand/60"></div></div>
       } @else {
         <div class="card max-w-lg">
-          <h3 class="mb-4 font-medium">Montants d'inscription (FCFA)</h3>
-          <div class="space-y-4">
-            <div><label class="mb-1 block text-sm font-medium">6ème</label><input class="input-field" type="number" [(ngModel)]="montantSixieme" /></div>
-            <div><label class="mb-1 block text-sm font-medium">5ème</label><input class="input-field" type="number" [(ngModel)]="montantCinquieme" /></div>
-            <div><label class="mb-1 block text-sm font-medium">4ème</label><input class="input-field" type="number" [(ngModel)]="montantQuatrieme" /></div>
-            <div><label class="mb-1 block text-sm font-medium">3ème</label><input class="input-field" type="number" [(ngModel)]="montantTroisieme" /></div>
+          <div class="mb-5 flex items-center gap-2.5 text-primary">
+            <app-icon name="wallet" [size]="20" />
+            <h3 class="font-semibold text-ink">Montants d'inscription (FCFA)</h3>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div><label class="field-label">6ème</label><input class="input-field" type="number" [(ngModel)]="montantSixieme" /></div>
+            <div><label class="field-label">5ème</label><input class="input-field" type="number" [(ngModel)]="montantCinquieme" /></div>
+            <div><label class="field-label">4ème</label><input class="input-field" type="number" [(ngModel)]="montantQuatrieme" /></div>
+            <div><label class="field-label">3ème</label><input class="input-field" type="number" [(ngModel)]="montantTroisieme" /></div>
           </div>
           @if (message()) {
-            <p class="mt-4 text-sm" [class]="success() ? 'text-emerald-600' : 'text-red-600'">{{ message() }}</p>
+            <p class="mt-4 flex items-center gap-1.5 text-sm font-medium" [class]="success() ? 'text-leaf' : 'text-terracotta'">
+              <app-icon [name]="success() ? 'check-circle' : 'alert-circle'" [size]="15" /> {{ message() }}
+            </p>
           }
           <button class="btn-primary mt-6" (click)="save()" [disabled]="saving()">
             @if (saving()) { <app-icon name="loader" [size]="16" class="animate-spin" /> }

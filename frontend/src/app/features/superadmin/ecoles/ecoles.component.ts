@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SuperadminService } from '../../../core/services/superadmin.service';
+import { ToastService } from '../../../core/services/toast.service';
 import { Ecole } from '../../../core/models';
 import { IconComponent } from '../../../shared/icon/icon.component';
 import { CommonModule } from '@angular/common';
@@ -42,12 +43,17 @@ import { CommonModule } from '@angular/common';
             <div><label class="mb-1.5 block text-[10px] font-black text-slate-400 uppercase tracking-widest">Email gérant</label><input class="input-field" type="email" [(ngModel)]="form.emailGerant" /></div>
             <div><label class="mb-1.5 block text-[10px] font-black text-slate-400 uppercase tracking-widest">Mot de passe temporaire</label><input class="input-field" type="password" [(ngModel)]="form.motDePasseGerant" /></div>
           </div>
+          @if (createError()) {
+            <p class="mt-3 text-xs font-bold text-red-600 flex items-center gap-1.5">
+              <app-icon name="alert-circle" [size]="14" /> {{ createError() }}
+            </p>
+          }
           <div class="mt-6 flex gap-3">
             <button class="btn-primary px-8" (click)="create()" [disabled]="creating()">
               @if (creating()) { <app-icon name="loader" [size]="18" class="animate-spin" /> }
               @else { Déployer }
             </button>
-            <button class="btn-secondary" (click)="showForm.set(false)">Annuler</button>
+            <button class="btn-secondary" (click)="cancelForm()">Annuler</button>
           </div>
         </div>
       }
@@ -63,16 +69,35 @@ import { CommonModule } from '@angular/common';
               <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
                 <app-icon name="school" [size]="60" />
               </div>
-              
+
               <div class="flex items-center gap-4 mb-4">
-                <div class="w-12 h-12 rounded-xl flex items-center justify-center font-black text-white shadow-lg" [style.background-color]="ecole.couleurPrimaire">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center font-black text-white shadow-lg"
+                  [style.background-color]="ecole.couleurPrimaire">
                   {{ ecole.nom[0].toUpperCase() }}
                 </div>
                 <div>
-                  <h3 class="font-bold text-slate-900 group-hover:text-primary transition-colors cursor-pointer" (click)="goToDetail(ecole.id)">{{ ecole.nom }}</h3>
+                  <h3 class="font-bold text-slate-900 group-hover:text-primary transition-colors cursor-pointer"
+                    (click)="goToDetail(ecole.id)">{{ ecole.nom }}</h3>
                   <p class="text-xs font-mono text-slate-400">/{{ ecole.slug }}</p>
                 </div>
               </div>
+
+              <!-- Confirmation inline de suspension -->
+              @if (confirmSuspendId() === ecole.id) {
+                <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-xs">
+                  <p class="font-bold text-red-700 mb-2">Confirmer la suspension ?</p>
+                  <div class="flex gap-2">
+                    <button (click)="confirmSuspend(ecole.id)"
+                      class="flex-1 py-1.5 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition-colors">
+                      Oui, suspendre
+                    </button>
+                    <button (click)="confirmSuspendId.set(null)"
+                      class="flex-1 py-1.5 bg-white border border-slate-200 text-slate-600 rounded-lg font-bold hover:bg-slate-50 transition-colors">
+                      Annuler
+                    </button>
+                  </div>
+                </div>
+              }
 
               <div class="flex items-center justify-between mt-6 pt-6 border-t border-slate-100">
                 <span class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest"
@@ -82,17 +107,23 @@ import { CommonModule } from '@angular/common';
                   }">
                   {{ ecole.statut }}
                 </span>
-                
+
                 <div class="flex items-center gap-2">
-                  <button (click)="goToDetail(ecole.id)" class="p-2 text-slate-400 hover:text-primary transition-all bg-slate-50 rounded-lg border border-slate-200" title="Détails">
-                    <app-icon name="settings" [size]="16" />
+                  <button (click)="goToDetail(ecole.id)"
+                    class="p-2 text-slate-400 hover:text-primary transition-all bg-slate-50 rounded-lg border border-slate-200"
+                    title="Voir les détails">
+                    <app-icon name="eye" [size]="16" />
                   </button>
                   @if (ecole.statut === 'ACTIVE') {
-                    <button (click)="suspend(ecole.id)" class="p-2 text-slate-400 hover:text-red-600 transition-all bg-slate-50 rounded-lg border border-slate-200" title="Suspendre">
+                    <button (click)="confirmSuspendId.set(ecole.id)"
+                      class="p-2 text-slate-400 hover:text-red-600 transition-all bg-slate-50 rounded-lg border border-slate-200"
+                      title="Suspendre">
                       <app-icon name="pause-circle" [size]="16" />
                     </button>
                   } @else {
-                    <button (click)="activate(ecole.id)" class="p-2 text-slate-400 hover:text-emerald-600 transition-all bg-slate-50 rounded-lg border border-slate-200" title="Activer">
+                    <button (click)="activate(ecole.id)"
+                      class="p-2 text-slate-400 hover:text-emerald-600 transition-all bg-slate-50 rounded-lg border border-slate-200"
+                      title="Réactiver">
                       <app-icon name="play-circle" [size]="16" />
                     </button>
                   }
@@ -108,12 +139,20 @@ import { CommonModule } from '@angular/common';
 export class EcolesComponent implements OnInit {
   private superadminService = inject(SuperadminService);
   private router = inject(Router);
-  
+  private toast = inject(ToastService);
+
   ecoles = signal<Ecole[]>([]);
   loading = signal(true);
   showForm = signal(false);
   creating = signal(false);
-  form = { nom: '', slug: '', couleurPrimaire: '#1e293b', couleurSecondaire: '#059669', emailGerant: '', motDePasseGerant: '' };
+  createError = signal<string | null>(null);
+  confirmSuspendId = signal<string | null>(null);
+
+  form = {
+    nom: '', slug: '',
+    couleurPrimaire: '#1e293b', couleurSecondaire: '#059669',
+    emailGerant: '', motDePasseGerant: '',
+  };
 
   ngOnInit(): void { this.load(); }
 
@@ -121,33 +160,68 @@ export class EcolesComponent implements OnInit {
     this.loading.set(true);
     this.superadminService.listEcoles().subscribe({
       next: (data) => { this.ecoles.set(data); this.loading.set(false); },
-      error: () => this.loading.set(false),
+      error: () => {
+        this.toast.error('Impossible de charger les établissements.');
+        this.loading.set(false);
+      },
     });
   }
 
   create(): void {
     if (!this.form.nom || !this.form.slug) return;
     this.creating.set(true);
+    this.createError.set(null);
     this.superadminService.createEcole(this.form).subscribe({
       next: () => {
+        this.toast.success(`Établissement "${this.form.nom}" créé avec succès.`);
         this.creating.set(false);
-        this.showForm.set(false);
-        this.form = { nom: '', slug: '', couleurPrimaire: '#1e293b', couleurSecondaire: '#059669', emailGerant: '', motDePasseGerant: '' };
+        this.cancelForm();
         this.load();
       },
-      error: () => this.creating.set(false),
+      error: (err) => {
+        this.createError.set(err?.error?.message ?? 'Erreur lors de la création.');
+        this.creating.set(false);
+      },
     });
+  }
+
+  cancelForm(): void {
+    this.showForm.set(false);
+    this.createError.set(null);
+    this.form = {
+      nom: '', slug: '',
+      couleurPrimaire: '#1e293b', couleurSecondaire: '#059669',
+      emailGerant: '', motDePasseGerant: '',
+    };
   }
 
   goToDetail(id: string): void {
     this.router.navigate(['/superadmin/ecoles', id]);
   }
 
-  suspend(id: string): void { 
-    if (confirm('Suspendre cet établissement ?')) {
-      this.superadminService.suspendEcole(id).subscribe(() => this.load()); 
-    }
+  confirmSuspend(id: string): void {
+    const ecole = this.ecoles().find(e => e.id === id);
+    this.superadminService.suspendEcole(id).subscribe({
+      next: () => {
+        this.toast.warning(`${ecole?.nom ?? 'Établissement'} suspendu.`);
+        this.confirmSuspendId.set(null);
+        this.load();
+      },
+      error: () => {
+        this.toast.error('Impossible de suspendre cet établissement.');
+        this.confirmSuspendId.set(null);
+      },
+    });
   }
 
-  activate(id: string): void { this.superadminService.activateEcole(id).subscribe(() => this.load()); }
+  activate(id: string): void {
+    const ecole = this.ecoles().find(e => e.id === id);
+    this.superadminService.activateEcole(id).subscribe({
+      next: () => {
+        this.toast.success(`${ecole?.nom ?? 'Établissement'} réactivé.`);
+        this.load();
+      },
+      error: () => this.toast.error('Impossible de réactiver cet établissement.'),
+    });
+  }
 }

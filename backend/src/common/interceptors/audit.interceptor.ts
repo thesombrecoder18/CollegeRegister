@@ -16,30 +16,34 @@ export class AuditInterceptor implements NestInterceptor {
     const request = context.switchToHttp().getRequest();
     const method = request.method;
 
-    // Only log mutations
-    if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
-      return next.handle().pipe(
-        tap(() => {
-          const user = request.user;
-          if (user) {
-            // Determine action name based on route and method
-            const action = `${method} ${request.route.path}`;
-            
-            // Extract entityId from params if available
-            const entityId = request.params.id || null;
-
-            this.auditService.createLog({
-              userId: user.id,
-              ecoleId: user.ecoleId, // Depending on the user or the body
-              action,
-              entityId,
-              details: JSON.stringify(request.body || {}),
-            }).catch(err => console.error('Failed to create audit log', err));
-          }
-        }),
-      );
+    // Uniquement les mutations
+    if (!['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
+      return next.handle();
     }
 
-    return next.handle();
+    return next.handle().pipe(
+      tap(() => {
+        const user = request.user;
+
+        // Le JWT payload expose `sub` comme identifiant utilisateur
+        const userId: string | undefined = user?.sub;
+
+        // Skip si pas d'utilisateur authentifié (routes publiques)
+        if (!userId) return;
+
+        const action = `${method} ${request.route?.path ?? request.url}`;
+        const entityId: string | undefined = request.params?.id ?? undefined;
+
+        this.auditService
+          .createLog({
+            userId,
+            ecoleId: user.ecoleId ?? null,
+            action,
+            entityId,
+            details: JSON.stringify(request.body ?? {}),
+          })
+          .catch((err) => console.error('Failed to create audit log', err));
+      }),
+    );
   }
 }

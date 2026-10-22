@@ -11,17 +11,17 @@ import { IconComponent } from '../../../shared/icon/icon.component';
   template: `
     <div class="animate-fade-in space-y-8">
       <!-- Header -->
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
-          <h2 class="text-2xl font-black text-slate-900 tracking-tight">Répartition des Classes</h2>
-          <p class="text-slate-500 text-sm">Gestion des effectifs par niveau et répartition Round-Robin.</p>
+          <h2 class="font-display text-2xl font-bold text-ink">Répartition des classes</h2>
+          <p class="text-sm text-ink-soft">Gestion des effectifs par niveau et équilibrage automatique.</p>
         </div>
         <div class="flex items-center gap-3">
-          <div class="flex bg-slate-100 p-1 rounded-xl">
+          <div class="flex rounded-full bg-sand p-1">
             @for (n of niveaux; track n) {
-              <button (click)="selectedNiveau.set(n)" 
-                class="px-4 py-2 rounded-lg text-sm font-bold transition-all"
-                [class]="selectedNiveau() === n ? 'bg-white text-primary shadow-sm' : 'text-slate-500 hover:text-slate-700'">
+              <button (click)="selectedNiveau.set(n)"
+                class="rounded-full px-4 py-2 text-sm font-semibold transition-all"
+                [class]="selectedNiveau() === n ? 'bg-white text-primary shadow-card' : 'text-ink-soft hover:text-ink'">
                 {{ n }}
               </button>
             }
@@ -31,82 +31,77 @@ import { IconComponent } from '../../../shared/icon/icon.component';
 
       <!-- Kanban View -->
       @if (loading()) {
-        <div class="flex justify-center py-20">
-          <div class="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-4">
+          @for (i of [1,2,3,4]; track i) {
+            <div class="h-72 animate-pulse rounded-2xl border border-line bg-sand/50"></div>
+          }
         </div>
       } @else {
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-4">
           @for (classeSuffix of ['A', 'B', 'C', 'D']; track classeSuffix) {
             @let classeFull = selectedNiveau() + ' ' + classeSuffix;
             @let count = (repartition()[selectedNiveau()] && repartition()[selectedNiveau()][classeFull]) || 0;
-            
-            <div class="flex flex-col h-full bg-slate-50/50 rounded-2xl border border-slate-200/60 overflow-hidden">
+
+            <div class="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-sand/40">
               <!-- Column Header -->
-              <div class="p-4 bg-white border-b border-slate-200 flex items-center justify-between">
+              <div class="flex items-center justify-between border-b border-line bg-white p-4">
                 <div class="flex items-center gap-2">
-                  <span class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
+                  <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-xs font-bold text-primary">
                     {{ classeSuffix }}
                   </span>
-                  <h3 class="font-bold text-slate-900">Classe {{ classeSuffix }}</h3>
+                  <h3 class="font-semibold text-ink">Classe {{ classeSuffix }}</h3>
                 </div>
-                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded-md text-[10px] font-black">
-                  {{ count }} ÉLÈVES
+                <span class="rounded-full bg-sand px-2.5 py-1 text-[10px] font-bold text-ink-soft">
+                  {{ count }} ÉL.
                 </span>
               </div>
 
-              <!-- Column Body (Simulated Pupils) -->
-              <div class="p-3 space-y-3 flex-1 overflow-y-auto max-h-[400px]">
+              <!-- Column Body -->
+              <div class="max-h-[400px] flex-1 space-y-2.5 overflow-y-auto p-3">
                 @if (count === 0) {
-                  <div class="flex flex-col items-center justify-center py-12 opacity-30 italic text-sm text-slate-400">
+                  <div class="flex flex-col items-center justify-center py-12 text-sm italic text-ink-soft/50">
                     <app-icon name="user-plus" [size]="24" class="mb-2" />
                     Aucun élève
                   </div>
                 } @else {
                   @for (i of [].constructor(count > 10 ? 10 : count); track $index) {
-                    <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex items-center gap-3 animate-slide-in">
-                      <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-400">
+                    <div class="flex animate-slide-in items-center gap-3 rounded-xl border border-line bg-white p-3 shadow-card">
+                      <div class="flex h-8 w-8 items-center justify-center rounded-full bg-sand text-[10px] font-bold text-ink-soft">
                         #{{ $index + 1 }}
                       </div>
                       <div class="flex-1">
-                        <div class="h-2 w-20 bg-slate-100 rounded-full mb-1"></div>
-                        <div class="h-1.5 w-12 bg-slate-50 rounded-full"></div>
+                        <div class="mb-1 h-2 w-20 rounded-full bg-sand"></div>
+                        <div class="h-1.5 w-12 rounded-full bg-sand/60"></div>
                       </div>
                     </div>
                   }
                   @if (count > 10) {
-                    <p class="text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest pt-2">
+                    <p class="pt-2 text-center text-[10px] font-bold uppercase tracking-wide text-ink-soft">
                       + {{ count - 10 }} autres élèves
                     </p>
                   }
                 }
-              </div>
-
-              <!-- Column Footer -->
-              <div class="p-3 bg-white/50 border-t border-slate-200">
-                <button class="w-full py-2 text-[10px] font-bold text-slate-500 hover:text-primary transition-colors uppercase tracking-widest">
-                  Voir la liste complète
-                </button>
               </div>
             </div>
           }
         </div>
 
         <!-- Action Bar -->
-        <div class="bg-[#0f172a] rounded-2xl p-6 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl shadow-slate-900/20">
+        <div class="flex flex-col items-center justify-between gap-6 rounded-3xl bg-ink p-6 text-white shadow-lift md:flex-row">
           <div class="flex items-center gap-4 text-center md:text-left">
-            <div class="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/30">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gold text-ink">
               <app-icon name="sparkles" [size]="24" />
             </div>
             <div>
-              <h3 class="font-bold text-lg">Répartition Intelligente</h3>
-              <p class="text-slate-400 text-sm">Équilibre automatiquement les effectifs pour le niveau {{ selectedNiveau() }}.</p>
+              <h3 class="font-display text-lg font-semibold">Répartition intelligente</h3>
+              <p class="text-sm text-white/70">Équilibre automatiquement les effectifs pour le niveau {{ selectedNiveau() }}.</p>
             </div>
           </div>
-          <button (click)="repartir(selectedNiveau())" 
+          <button (click)="repartir(selectedNiveau())"
             [disabled]="repartirLoading() === selectedNiveau()"
-            class="w-full md:w-auto px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20">
+            class="btn-accent w-full px-8 md:w-auto">
             @if (repartirLoading() === selectedNiveau()) {
-              <app-icon name="loader" [size]="20" class="animate-spin" /> Répartition...
+              <app-icon name="loader" [size]="20" class="animate-spin" /> Répartition…
             } @else {
               <app-icon name="shuffle" [size]="20" /> Lancer la répartition
             }

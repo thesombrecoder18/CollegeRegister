@@ -10,48 +10,65 @@ import { IconComponent } from '../../../shared/icon/icon.component';
   imports: [RouterOutlet, RouterLink, RouterLinkActive, IconComponent],
   template: `
     @if (loading()) {
-      <div class="flex min-h-screen items-center justify-center">
-        <div class="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+      <div class="flex min-h-[100dvh] flex-col items-center justify-center gap-4 bg-cream">
+        <div class="h-9 w-9 animate-spin rounded-full border-[3px] border-primary border-t-transparent"></div>
+        <p class="text-sm font-medium text-ink-soft">Chargement de l'établissement…</p>
       </div>
     } @else if (error()) {
-      <div class="flex min-h-screen items-center justify-center p-4">
+      <div class="flex min-h-[100dvh] items-center justify-center bg-cream p-4">
         <div class="card max-w-md text-center">
-          <p class="text-red-600">{{ error() }}</p>
+          <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-terracotta/10 text-terracotta">
+            <app-icon name="alert-circle" [size]="26" />
+          </div>
+          <h2 class="mb-1 text-lg font-semibold text-ink">Établissement introuvable</h2>
+          <p class="text-sm text-ink-soft">{{ error() }}</p>
         </div>
       </div>
     } @else {
-      <div class="min-h-screen bg-slate-50">
-        <header class="border-b border-slate-200 bg-white">
-          <div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-4">
-            <div class="flex items-center gap-3">
+      <div class="flex min-h-[100dvh] flex-col bg-cream">
+        <header class="sticky top-0 z-40 border-b border-line/70 bg-cream/85 backdrop-blur-md">
+          <div class="h-1 w-full bg-gradient-to-r from-leaf via-gold to-terracotta"></div>
+          <div class="mx-auto flex max-w-content items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
+            <a routerLink="." class="flex items-center gap-3">
               @if (theme.ecole()?.logoUrl) {
-                <img [src]="theme.ecole()!.logoUrl!" alt="Logo" class="h-10 w-10 rounded-lg object-cover" />
+                <img [src]="theme.ecole()!.logoUrl!" alt="Logo" class="h-11 w-11 rounded-2xl object-cover shadow-card" />
               } @else {
-                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white">
-                  <app-icon name="graduation-cap" [size]="20" />
+                <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-white shadow-soft">
+                  <app-icon name="graduation-cap" [size]="22" />
                 </div>
               }
-              <div>
-                <h1 class="text-lg font-semibold text-slate-900">{{ theme.ecole()?.nom }}</h1>
-                <p class="text-xs text-slate-500">Inscriptions en ligne</p>
+              <div class="leading-tight">
+                <h1 class="font-display text-base font-bold text-ink sm:text-lg">{{ theme.ecole()?.nom }}</h1>
+                <p class="text-xs text-ink-soft">Inscriptions en ligne</p>
               </div>
-            </div>
-            <nav class="flex gap-2">
-              <a routerLink="." routerLinkActive="bg-primary/10 text-primary" [routerLinkActiveOptions]="{ exact: true }"
-                 class="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100">
+            </a>
+            <nav class="flex items-center gap-1.5">
+              <a routerLink="." routerLinkActive="!bg-primary/10 !text-primary" [routerLinkActiveOptions]="{ exact: true }"
+                 class="rounded-full px-4 py-2 text-sm font-semibold text-ink-soft transition-colors hover:bg-sand hover:text-ink">
                 Inscription
               </a>
-              <a routerLink="suivi" routerLinkActive="bg-primary/10 text-primary"
-                 class="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100">
+              <a routerLink="suivi" routerLinkActive="!bg-primary/10 !text-primary"
+                 class="flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold text-ink-soft transition-colors hover:bg-sand hover:text-ink">
                 <app-icon name="search" [size]="16" />
-                Suivi
+                <span class="hidden sm:inline">Suivi</span>
               </a>
             </nav>
           </div>
         </header>
-        <main class="mx-auto max-w-3xl px-4 py-6">
+
+        <main class="mx-auto w-full max-w-content flex-1 px-4 py-8 sm:px-6 sm:py-10">
           <router-outlet />
         </main>
+
+        <footer class="border-t border-line/70 bg-sand/40">
+          <div class="mx-auto flex max-w-content flex-col items-center justify-between gap-3 px-4 py-6 text-sm text-ink-soft sm:flex-row sm:px-6">
+            <p>© {{ year }} {{ theme.ecole()?.nom }}. Tous droits réservés.</p>
+            <div class="flex items-center gap-2">
+              <app-icon name="shield-check" [size]="15" class="text-leaf" />
+              <span>Données protégées (conformité CDP Sénégal)</span>
+            </div>
+          </div>
+        </footer>
       </div>
     }
   `,
@@ -63,6 +80,7 @@ export class PublicLayoutComponent implements OnInit {
 
   loading = signal(true);
   error = signal<string | null>(null);
+  readonly year = new Date().getFullYear();
 
   ngOnInit(): void {
     const slug = this.route.snapshot.paramMap.get('slug')!;

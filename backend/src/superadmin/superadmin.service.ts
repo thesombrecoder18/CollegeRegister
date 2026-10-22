@@ -41,18 +41,30 @@ export class SuperadminService {
     };
   }
 
-  async getAuditLogs() {
-    return this.prisma.auditLog.findMany({
-      take: 50,
-      orderBy: { date: 'desc' },
-      include: {
-        acteur: {
-          select: { email: true },
+  async getAuditLogs(page = 1, limit = 50) {
+    const skip = (page - 1) * limit;
+
+    const [data, total] = await Promise.all([
+      this.prisma.auditLog.findMany({
+        skip,
+        take: limit,
+        orderBy: { date: 'desc' },
+        include: {
+          acteur: { select: { email: true } },
+          ecole: { select: { nom: true } },
         },
-        ecole: {
-          select: { nom: true },
-        },
+      }),
+      this.prisma.auditLog.count(),
+    ]);
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
       },
-    });
+    };
   }
 }

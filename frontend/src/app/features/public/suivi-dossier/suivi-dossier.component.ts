@@ -10,48 +10,56 @@ import { IconComponent } from '../../../shared/icon/icon.component';
   standalone: true,
   imports: [FormsModule, IconComponent],
   template: `
-    <div class="card animate-fade-in">
-      <div class="mb-4 flex items-center gap-2">
-        <app-icon name="search" [size]="20" class="text-primary" />
-        <h2 class="text-lg font-semibold">Suivi de dossier</h2>
-      </div>
-      <p class="mb-4 text-sm text-slate-600">
-        Recherchez votre dossier par numéro de téléphone ou référence de paiement.
-      </p>
-      <div class="space-y-4">
-        <div>
-          <label class="mb-1 block text-sm font-medium text-slate-700">Téléphone</label>
-          <input class="input-field" [(ngModel)]="telephone" placeholder="77 123 45 67" type="tel" />
+    <div class="mx-auto max-w-xl animate-fade-in">
+      <div class="mb-6 text-center">
+        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+          <app-icon name="search" [size]="26" />
         </div>
-        <div class="text-center text-xs text-slate-400">ou</div>
-        <div>
-          <label class="mb-1 block text-sm font-medium text-slate-700">Référence</label>
-          <input class="input-field" [(ngModel)]="reference" placeholder="WAVE-20260526-XYZ" />
-        </div>
+        <h2 class="font-display text-2xl font-bold text-ink">Suivi de dossier</h2>
+        <p class="mt-1.5 text-ink-soft">Retrouvez votre dossier par téléphone ou par référence de paiement.</p>
       </div>
-      @if (error()) {
-        <div class="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{{ error() }}</div>
-      }
-      <button class="btn-primary mt-6 w-full" (click)="rechercher()" [disabled]="loading()">
-        @if (loading()) { <app-icon name="loader" [size]="16" class="animate-spin" /> }
-        Rechercher
-      </button>
+
+      <div class="card">
+        <div class="space-y-4">
+          <div>
+            <label class="field-label">Téléphone</label>
+            <input class="input-field" [(ngModel)]="telephone" placeholder="77 123 45 67" type="tel" />
+          </div>
+          <div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-wide text-ink-soft/60">
+            <span class="h-px flex-1 bg-line"></span> ou <span class="h-px flex-1 bg-line"></span>
+          </div>
+          <div>
+            <label class="field-label">Référence</label>
+            <input class="input-field" [(ngModel)]="reference" placeholder="WAVE-20260526-XYZ" />
+          </div>
+        </div>
+        @if (error()) {
+          <div class="mt-4 flex items-center gap-2 rounded-xl border border-terracotta/20 bg-terracotta/8 px-4 py-3 text-sm font-medium text-terracotta">
+            <app-icon name="alert-circle" [size]="16" /> {{ error() }}
+          </div>
+        }
+        <button class="btn-primary mt-6 w-full" (click)="rechercher()" [disabled]="loading()">
+          @if (loading()) { <app-icon name="loader" [size]="18" class="animate-spin" /> }
+          Rechercher mon dossier
+        </button>
+      </div>
+
       @if (result()) {
-        <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4 animate-fade-in">
-          <div class="flex items-center justify-between">
+        <div class="card mt-5 animate-fade-in">
+          <div class="flex items-center justify-between gap-3">
             <div>
-              <p class="font-semibold">{{ result()!.prenom }} {{ result()!.nom }}</p>
-              <p class="text-sm text-slate-500">{{ result()!.niveau }} — {{ result()!.reference }}</p>
+              <p class="font-semibold text-ink">{{ result()!.prenom }} {{ result()!.nom }}</p>
+              <p class="text-sm text-ink-soft">{{ result()!.niveau }} · {{ result()!.reference }}</p>
             </div>
-            <span class="rounded-full px-3 py-1 text-xs font-medium" [class]="statutClass(result()!.statut!)">
+            <span class="rounded-full px-3 py-1 text-xs font-semibold" [class]="statutClass(result()!.statut!)">
               {{ statutLabel(result()!.statut!) }}
             </span>
           </div>
           @if (result()!.classe) {
-            <p class="mt-2 text-sm text-slate-600">Classe assignée : <strong>{{ result()!.classe }}</strong></p>
+            <p class="mt-3 border-t border-line pt-3 text-sm text-ink-soft">Classe assignée : <strong class="text-ink">{{ result()!.classe }}</strong></p>
           }
           @if (result()!.adminNotes && result()!.statut === 'REJETE') {
-            <p class="mt-2 text-sm text-red-600">Motif : {{ result()!.adminNotes }}</p>
+            <p class="mt-3 rounded-xl bg-terracotta/8 px-3 py-2 text-sm text-terracotta">Motif : {{ result()!.adminNotes }}</p>
           }
         </div>
       }

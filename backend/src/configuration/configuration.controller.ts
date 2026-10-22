@@ -1,4 +1,5 @@
 import { Controller, Get, Patch, Body } from '@nestjs/common';
+import { SkipThrottle } from '@nestjs/throttler';
 import { ConfigurationService } from './configuration.service';
 import { UpdateConfigurationDto } from './dto/configuration.dto';
 import { Roles } from '../common/decorators/roles.decorator';
@@ -6,6 +7,7 @@ import { RoleUser } from '@prisma/client';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import type { JwtPayload } from '../common/decorators/current-user.decorator';
 
+@SkipThrottle()
 @Controller('configuration')
 export class ConfigurationController {
   constructor(private configurationService: ConfigurationService) {}

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { AdminService } from '../../../core/services/admin.service';
 import { DashboardStats, formatMontant } from '../../../core/models';
 import { IconComponent } from '../../../shared/icon/icon.component';
@@ -9,57 +9,31 @@ import { IconComponent } from '../../../shared/icon/icon.component';
   imports: [IconComponent],
   template: `
     <div class="animate-fade-in">
-      <h2 class="mb-6 text-xl font-semibold text-slate-900">Tableau de bord</h2>
+      <div class="mb-7">
+        <h2 class="font-display text-2xl font-bold text-ink">Tableau de bord</h2>
+        <p class="mt-1 text-sm text-ink-soft">Vue d'ensemble des inscriptions de votre établissement.</p>
+      </div>
       @if (loading()) {
-        <div class="flex justify-center py-12">
-          <div class="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+        <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          @for (i of [1,2,3,4]; track i) {
+            <div class="card h-[88px] animate-pulse"><div class="h-full w-full rounded-lg bg-sand/60"></div></div>
+          }
         </div>
       } @else if (stats()) {
         <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <div class="card">
-            <div class="flex items-center gap-3">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100">
-                <app-icon name="clock" [size]="20" class="text-amber-600" />
-              </div>
-              <div>
-                <p class="text-2xl font-bold">{{ stats()!.enAttente }}</p>
-                <p class="text-xs text-slate-500">En attente</p>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="flex items-center gap-3">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100">
-                <app-icon name="check-circle" [size]="20" class="text-emerald-600" />
-              </div>
-              <div>
-                <p class="text-2xl font-bold">{{ stats()!.valide }}</p>
-                <p class="text-xs text-slate-500">Validées</p>
+          @for (c of cards(); track c.label) {
+            <div class="card transition-shadow hover:shadow-soft">
+              <div class="flex items-center gap-3.5">
+                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl" [class]="c.bg">
+                  <app-icon [name]="c.icon" [size]="22" [class]="c.fg" />
+                </div>
+                <div class="min-w-0">
+                  <p class="font-display text-2xl font-bold text-ink" [class.!text-lg]="c.money">{{ c.value }}</p>
+                  <p class="text-xs font-medium text-ink-soft">{{ c.label }}</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="card">
-            <div class="flex items-center gap-3">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-red-100">
-                <app-icon name="x-circle" [size]="20" class="text-red-600" />
-              </div>
-              <div>
-                <p class="text-2xl font-bold">{{ stats()!.rejete }}</p>
-                <p class="text-xs text-slate-500">Rejetées</p>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="flex items-center gap-3">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
-                <app-icon name="banknote" [size]="20" class="text-blue-600" />
-              </div>
-              <div>
-                <p class="text-lg font-bold">{{ formatMontant(stats()!.montantCollecte) }}</p>
-                <p class="text-xs text-slate-500">Collecté</p>
-              </div>
-            </div>
-          </div>
+          }
         </div>
       }
     </div>
@@ -70,6 +44,17 @@ export class DashboardComponent implements OnInit {
   stats = signal<DashboardStats | null>(null);
   loading = signal(true);
   formatMontant = formatMontant;
+
+  cards = computed(() => {
+    const s = this.stats();
+    if (!s) return [];
+    return [
+      { label: 'En attente', value: String(s.enAttente), icon: 'clock', bg: 'bg-gold/15', fg: 'text-[#9a6a14]', money: false },
+      { label: 'Validées', value: String(s.valide), icon: 'check-circle', bg: 'bg-leaf/12', fg: 'text-leaf', money: false },
+      { label: 'Rejetées', value: String(s.rejete), icon: 'x-circle', bg: 'bg-terracotta/12', fg: 'text-terracotta', money: false },
+      { label: 'Collecté', value: formatMontant(s.montantCollecte), icon: 'wallet', bg: 'bg-primary/10', fg: 'text-primary', money: true },
+    ];
+  });
 
   ngOnInit(): void {
     this.adminService.getDashboardStats().subscribe({

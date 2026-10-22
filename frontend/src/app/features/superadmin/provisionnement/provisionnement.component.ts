@@ -2,6 +2,7 @@ import { Component, inject, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SuperadminService, CreateEcolePayload } from '../../../core/services/superadmin.service';
+import { ToastService } from '../../../core/services/toast.service';
 import { IconComponent } from '../../../shared/icon/icon.component';
 
 @Component({
@@ -107,6 +108,7 @@ import { IconComponent } from '../../../shared/icon/icon.component';
 })
 export class ProvisionnementComponent {
   private svc = inject(SuperadminService);
+  private toast = inject(ToastService);
   onSuccess = output<void>();
 
   payload: CreateEcolePayload = { 
@@ -129,15 +131,17 @@ export class ProvisionnementComponent {
     if (!this.canSubmit()) return;
     this.loading.set(true);
     this.error.set(null);
-    
+
     this.svc.createEcole(this.payload).subscribe({
-      next: () => { 
-        this.loading.set(false); 
+      next: () => {
+        this.loading.set(false);
+        this.toast.success(`Tenant "${this.payload.nom}" déployé avec succès.`);
         this.onSuccess.emit();
       },
-      error: (err) => { 
-        this.error.set(err.error?.message || 'Erreur lors du déploiement.');
-        this.loading.set(false); 
+      error: (err) => {
+        const msg = err.error?.message || 'Erreur lors du déploiement.';
+        this.error.set(msg);
+        this.loading.set(false);
       },
     });
   }

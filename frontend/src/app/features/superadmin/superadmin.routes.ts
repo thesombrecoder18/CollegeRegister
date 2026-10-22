@@ -40,6 +40,11 @@ export const SUPERADMIN_ROUTES: Routes = [
         loadComponent: () =>
           import('./audit/audit-logs.component').then((m) => m.AuditLogsComponent),
       },
+      {
+        path: 'utilisateurs',
+        loadComponent: () =>
+          import('./utilisateurs/utilisateurs.component').then((m) => m.UtilisateursComponent),
+      },
     ],
   },
 ];

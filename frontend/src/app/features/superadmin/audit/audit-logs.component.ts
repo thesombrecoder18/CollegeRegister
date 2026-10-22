@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SuperadminService } from '../../../core/services/superadmin.service';
+import { ToastService } from '../../../core/services/toast.service';
 import { IconComponent } from '../../../shared/icon/icon.component';
 
 @Component({
@@ -57,11 +58,11 @@ import { IconComponent } from '../../../shared/icon/icon.component';
           <div class="flex items-center gap-3">
             <h3 class="font-bold text-slate-900">Journal des évènements</h3>
             <span class="px-3 py-1 bg-slate-200 text-slate-600 rounded-full text-[10px] font-black">
-              {{ filteredLogs().length }} EVENTS
+              {{ meta()?.total ?? 0 }} EVENTS
             </span>
           </div>
           <div class="relative">
-            <input class="bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary w-64" 
+            <input class="bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary w-64"
               placeholder="Filtrer par action ou email..." [(ngModel)]="searchQuery" />
             <div class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
               <app-icon name="search" [size]="16" />
@@ -118,21 +119,45 @@ import { IconComponent } from '../../../shared/icon/icon.component';
             </tbody>
           </table>
         </div>
+
+        <!-- Pagination -->
+        <div class="px-6 py-4 border-t border-slate-100 bg-white flex items-center justify-between">
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            Page {{ currentPage() }} sur {{ meta()?.totalPages || 1 }}
+            <span class="ml-2 text-slate-300">·</span>
+            <span class="ml-2">{{ meta()?.total ?? 0 }} entrées</span>
+          </p>
+          <div class="flex items-center gap-2">
+            <button (click)="prevPage()" [disabled]="currentPage() === 1"
+              class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 disabled:opacity-30 transition-all">
+              <app-icon name="chevron-left" [size]="16" />
+            </button>
+            <button (click)="nextPage()" [disabled]="currentPage() >= (meta()?.totalPages || 1)"
+              class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 disabled:opacity-30 transition-all">
+              <app-icon name="chevron-right" [size]="16" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   `,
 })
 export class AuditLogsComponent implements OnInit {
   private svc = inject(SuperadminService);
+  private toast = inject(ToastService);
+
   logs = signal<any[]>([]);
+  meta = signal<{ total: number; page: number; limit: number; totalPages: number } | null>(null);
   loading = signal(true);
   searchQuery = signal('');
+  currentPage = signal(1);
+  readonly pageSize = 50;
 
   filteredLogs = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
     if (!query) return this.logs();
-    return this.logs().filter(log => 
-      log.action.toLowerCase().includes(query) || 
+    return this.logs().filter(log =>
+      log.action.toLowerCase().includes(query) ||
       log.acteur?.email?.toLowerCase().includes(query) ||
       log.ecole?.nom?.toLowerCase().includes(query)
     );
@@ -144,14 +169,31 @@ export class AuditLogsComponent implements OnInit {
 
   load(): void {
     this.loading.set(true);
-    this.svc.getAuditLogs().subscribe({
-      next: (data) => {
-        this.logs.set(data);
+    this.svc.getAuditLogs(this.currentPage(), this.pageSize).subscribe({
+      next: (res) => {
+        this.logs.set(res.data);
+        this.meta.set(res.meta);
         this.loading.set(false);
       },
       error: () => {
+        this.toast.error('Impossible de charger les logs d\'audit.');
         this.loading.set(false);
-      }
+      },
     });
+  }
+
+  nextPage(): void {
+    const total = this.meta()?.totalPages ?? 1;
+    if (this.currentPage() < total) {
+      this.currentPage.update(p => p + 1);
+      this.load();
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage() > 1) {
+      this.currentPage.update(p => p - 1);
+      this.load();
+    }
   }
 }

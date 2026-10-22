@@ -8,41 +8,51 @@ import { IconComponent } from '../../../shared/icon/icon.component';
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive, IconComponent],
   template: `
-    <div class="flex min-h-screen bg-slate-100">
-      <aside class="hidden w-64 flex-shrink-0 border-r border-slate-200 bg-white md:block">
-        <div class="border-b border-slate-200 p-4">
-          <h1 class="font-semibold text-slate-900">{{ auth.user()?.ecole?.nom ?? 'Administration' }}</h1>
-          <p class="text-xs text-slate-500">Espace gérant</p>
+    <div class="flex min-h-[100dvh] bg-cream">
+      <aside class="sticky top-0 hidden h-[100dvh] w-64 flex-shrink-0 flex-col border-r border-line bg-sand/50 md:flex">
+        <div class="flex items-center gap-3 border-b border-line p-4">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-primary text-white shadow-soft">
+            <app-icon name="school" [size]="20" />
+          </div>
+          <div class="min-w-0 leading-tight">
+            <h1 class="truncate font-display font-bold text-ink">{{ auth.user()?.ecole?.nom ?? 'Administration' }}</h1>
+            <p class="text-xs text-ink-soft">Espace gérant</p>
+          </div>
         </div>
-        <nav class="space-y-1 p-3">
+        <nav class="flex-1 space-y-1 p-3">
           @for (item of navItems; track item.path) {
-            <a [routerLink]="item.path" routerLinkActive="bg-primary/10 text-primary"
-               class="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50">
+            <a [routerLink]="item.path" routerLinkActive="!bg-primary/10 !text-primary"
+               class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-ink-soft transition-colors hover:bg-white hover:text-ink">
               <app-icon [name]="item.icon" [size]="18" />
               {{ item.label }}
             </a>
           }
         </nav>
-        <div class="absolute bottom-0 w-64 border-t border-slate-200 p-3">
-          <button class="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-red-600 hover:bg-red-50" (click)="auth.logout()">
+        <div class="border-t border-line p-3">
+          <button class="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-terracotta transition-colors hover:bg-terracotta/8" (click)="auth.logout()">
             <app-icon name="log-out" [size]="18" /> Déconnexion
           </button>
         </div>
       </aside>
-      <div class="flex flex-1 flex-col">
-        <header class="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3 md:hidden">
-          <h1 class="font-semibold">{{ auth.user()?.ecole?.nom }}</h1>
-          <button class="text-red-600" (click)="auth.logout()">
+      <div class="flex min-w-0 flex-1 flex-col">
+        <header class="sticky top-0 z-30 flex items-center justify-between border-b border-line bg-cream/85 px-4 py-3 backdrop-blur-md md:hidden">
+          <div class="flex items-center gap-2.5">
+            <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white">
+              <app-icon name="school" [size]="18" />
+            </div>
+            <h1 class="truncate font-display font-bold text-ink">{{ auth.user()?.ecole?.nom }}</h1>
+          </div>
+          <button class="flex h-9 w-9 items-center justify-center rounded-xl text-terracotta hover:bg-terracotta/8" (click)="auth.logout()">
             <app-icon name="log-out" [size]="20" />
           </button>
         </header>
-        <nav class="flex gap-1 overflow-x-auto border-b border-slate-200 bg-white px-2 py-2 md:hidden">
+        <nav class="sticky top-[57px] z-20 flex gap-1.5 overflow-x-auto border-b border-line bg-cream/85 px-3 py-2.5 backdrop-blur-md md:hidden">
           @for (item of navItems; track item.path) {
-            <a [routerLink]="item.path" routerLinkActive="bg-primary/10 text-primary"
-               class="whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-medium text-slate-600">{{ item.label }}</a>
+            <a [routerLink]="item.path" routerLinkActive="!bg-primary/10 !text-primary"
+               class="whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-semibold text-ink-soft transition-colors hover:bg-sand">{{ item.label }}</a>
           }
         </nav>
-        <main class="flex-1 p-4 md:p-6"><router-outlet /></main>
+        <main class="flex-1 p-4 sm:p-6 lg:p-8"><router-outlet /></main>
       </div>
     </div>
   `,

@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Inscription } from '../models';
+import { Inscription, PaginatedResponse } from '../models';
 
 export interface CreateInscriptionPayload {
   nom: string;
@@ -29,9 +29,10 @@ export class InscriptionService {
     return this.http.get<Partial<Inscription>>(`${this.baseUrl}/public/${slug}/suivi?${query}`);
   }
 
-  list(statut?: string): Observable<Inscription[]> {
-    const url = statut ? `${this.baseUrl}?statut=${statut}` : this.baseUrl;
-    return this.http.get<Inscription[]>(url);
+  list(statut?: string, page = 1, limit = 50): Observable<PaginatedResponse<Inscription>> {
+    const params = new URLSearchParams({ page: String(page), limit: String(limit) });
+    if (statut) params.set('statut', statut);
+    return this.http.get<PaginatedResponse<Inscription>>(`${this.baseUrl}?${params}`);
   }
 
   getOne(id: string): Observable<Inscription> {

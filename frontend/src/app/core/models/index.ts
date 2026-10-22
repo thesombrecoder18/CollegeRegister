@@ -68,6 +68,7 @@ export interface Ecole {
   dateCreation: string;
   configuration?: Configuration;
   _count?: { inscriptions: number; utilisateurs: number };
+  utilisateurs?: Array<{ id: string; email: string; role: string }>;
 }
 
 export interface GlobalStats {
@@ -78,6 +79,16 @@ export interface GlobalStats {
   totalGerants: number;
   montantGlobalCollecte: number;
   inscriptionsParStatut: Record<string, number>;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
 }
 
 export const NIVEAUX = ['6ème', '5ème', '4ème', '3ème'] as const;

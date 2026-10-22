@@ -37,6 +37,30 @@ export class EcoleService {
     };
   }
 
+  async findById(id: string) {
+    const ecole = await this.prisma.ecole.findUnique({
+      where: { id },
+      include: {
+        configuration: true,
+        _count: { select: { inscriptions: true, utilisateurs: true } },
+        utilisateurs: {
+          where: { role: 'GERANT' },
+          select: {
+            id: true,
+            email: true,
+            role: true,
+          },
+        },
+      },
+    });
+
+    if (!ecole) {
+      throw new NotFoundException('Établissement introuvable');
+    }
+
+    return ecole;
+  }
+
   async findAll() {
     return this.prisma.ecole.findMany({
       include: {
@@ -103,6 +127,28 @@ export class EcoleService {
       where: { id },
       data: { statut: StatutEcole.ACTIVE },
     });
+  }
+
+  async getStatsForEcole(id: string) {
+    await this.ensureExists(id);
+
+    const [enAttente, valide, rejete, montantCollecte] = await Promise.all([
+      this.prisma.inscription.count({ where: { ecoleId: id, statut: 'EN_ATTENTE' } }),
+      this.prisma.inscription.count({ where: { ecoleId: id, statut: 'VALIDE' } }),
+      this.prisma.inscription.count({ where: { ecoleId: id, statut: 'REJETE' } }),
+      this.prisma.inscription.aggregate({
+        where: { ecoleId: id, statut: 'VALIDE' },
+        _sum: { montantRecu: true },
+      }),
+    ]);
+
+    return {
+      enAttente,
+      valide,
+      rejete,
+      total: enAttente + valide + rejete,
+      montantCollecte: montantCollecte._sum.montantRecu ?? 0,
+    };
   }
 
   async getStats(ecoleId: string) {
